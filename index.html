@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transparencia Ediles Montevideo — Consulta Ciudadana Abierta</title>
-  <meta name="description" content="Herramienta ciudadana para redactar una consulta a los 31 ediles de Montevideo sobre sus equipos de asesores.">
+  <title>Transparencia Ediles Uruguay — Consulta Ciudadana Abierta</title>
+  <meta name="description" content="Herramienta ciudadana para redactar una consulta a los 31 ediles de tu departamento sobre sus equipos de asesores.">
   <link rel="canonical" href="https://transparencia-ediles.vercel.app/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_UY">
-  <meta property="og:site_name" content="Transparencia Ediles Montevideo">
-  <meta property="og:title" content="Transparencia Ediles Montevideo — Consulta Ciudadana Abierta">
-  <meta property="og:description" content="Herramienta ciudadana para redactar una consulta a los 31 ediles de Montevideo sobre sus equipos de asesores.">
+  <meta property="og:site_name" content="Transparencia Ediles Uruguay">
+  <meta property="og:title" content="Transparencia Ediles Uruguay — Consulta Ciudadana Abierta">
+  <meta property="og:description" content="Herramienta ciudadana para redactar una consulta a los 31 ediles de tu departamento sobre sus equipos de asesores.">
   <meta property="og:url" content="https://transparencia-ediles.vercel.app/">
   <meta property="og:image" content="https://transparencia-ediles.vercel.app/assets/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Transparencia Ediles Montevideo, consulta ciudadana">
+  <meta property="og:image:alt" content="Transparencia Ediles Uruguay, consulta ciudadana">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Transparencia Ediles Montevideo — Consulta Ciudadana Abierta">
-  <meta name="twitter:description" content="Herramienta ciudadana para redactar una consulta a los 31 ediles de Montevideo sobre sus equipos de asesores.">
+  <meta name="twitter:title" content="Transparencia Ediles Uruguay — Consulta Ciudadana Abierta">
+  <meta name="twitter:description" content="Herramienta ciudadana para redactar una consulta a los 31 ediles de tu departamento sobre sus equipos de asesores.">
   <meta name="twitter:image" content="https://transparencia-ediles.vercel.app/assets/og.png">
-  <meta name="twitter:image:alt" content="Transparencia Ediles Montevideo, consulta ciudadana">
+  <meta name="twitter:image:alt" content="Transparencia Ediles Uruguay, consulta ciudadana">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon.png" type="image/png" sizes="32x32">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,12 +34,45 @@
 
     <header class="text-center space-y-4 pt-4">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold tracking-wide border border-blue-500/20">
-        <span aria-hidden="true">🏛️</span> Transparencia Activa • Junta Departamental de Montevideo
+        <span aria-hidden="true">🏛️</span> Transparencia Activa • Gobiernos Departamentales de Uruguay
       </div>
 
       <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-        ¿Quiénes son los asesores de los Ediles de Montevideo?
+        ¿Quiénes son los asesores de los Ediles?
       </h1>
+
+      <!-- SELECTOR DE LOS 19 DEPARTAMENTOS -->
+      <div class="max-w-md mx-auto pt-2">
+        <label for="deptSelect" class="block text-xs font-medium text-slate-400 mb-1.5 text-left sm:text-center">
+          Seleccioná tu Departamento:
+        </label>
+        <div class="relative">
+          <select id="deptSelect" class="w-full bg-slate-900 border-2 border-blue-500/50 hover:border-blue-500 rounded-2xl px-4 py-3 text-sm sm:text-base font-semibold text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition shadow-lg shadow-blue-950/30 cursor-pointer appearance-none">
+            <option value="Montevideo" selected>Montevideo (31 Ediles directos)</option>
+            <option value="Canelones">Canelones</option>
+            <option value="Maldonado">Maldonado</option>
+            <option value="Colonia">Colonia</option>
+            <option value="Salto">Salto</option>
+            <option value="Paysandú">Paysandú</option>
+            <option value="San José">San José</option>
+            <option value="Florida">Florida</option>
+            <option value="Río Negro">Río Negro</option>
+            <option value="Rocha">Rocha</option>
+            <option value="Soriano">Soriano</option>
+            <option value="Tacuarembó">Tacuarembó</option>
+            <option value="Rivera">Rivera</option>
+            <option value="Cerro Largo">Cerro Largo</option>
+            <option value="Durazno">Durazno</option>
+            <option value="Lavalleja">Lavalleja</option>
+            <option value="Treinta y Tres">Treinta y Tres</option>
+            <option value="Artigas">Artigas</option>
+            <option value="Flores">Flores</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+            ▼
+          </div>
+        </div>
+      </div>
 
       <div class="grid grid-cols-3 gap-3 sm:gap-4 max-w-xl mx-auto pt-2">
         <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
@@ -48,9 +81,9 @@
           <div class="text-xs text-slate-400">titulares en funciones</div>
         </div>
         <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
-          <div class="text-xs text-blue-400 font-medium">Bancadas</div>
-          <div id="bancadasTotal" class="text-xl sm:text-2xl font-bold text-blue-400 mt-1">2</div>
-          <div id="partySplit" class="text-xs text-slate-400">FA • CR</div>
+          <div class="text-xs text-blue-400 font-medium">Órgano</div>
+          <div id="badgeJuntaCity" class="text-base sm:text-lg font-bold text-blue-400 mt-1 truncate">Montevideo</div>
+          <div class="text-xs text-slate-400">Junta Departamental</div>
         </div>
         <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
           <div class="text-xs text-emerald-400 font-medium">Marco Legal</div>
@@ -71,7 +104,7 @@
             <span aria-hidden="true">🎯</span> ¿Qué hace?
           </div>
           <p class="leading-relaxed">
-            Te permite <strong>consultar a los 31 ediles de Montevideo</strong> para saber quiénes integran sus equipos de asesores, qué tareas cumplen, cuánto cobran y si realmente trabajan para el edil o para la estructura de su partido político.
+            Te permite <strong>consultar a los 31 ediles de tu departamento</strong> para saber quiénes integran sus equipos de asesores, qué tareas cumplen, cuánto cobran y si realmente trabajan para el edil o para la estructura de su partido político.
           </p>
         </div>
 
@@ -114,24 +147,24 @@
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <h2 class="text-base sm:text-lg font-semibold text-white flex items-center gap-2">
           <span class="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600/30 text-blue-400 text-xs font-bold">2</span>
-          Destinatarios (<span id="selectedCount">31</span> seleccionados)
+          Destinatarios de <span id="deptNameHeading">Montevideo</span> (<span id="selectedCount">31</span> seleccionados)
         </h2>
-        <div class="flex items-center gap-2">
+        <div id="selectionButtonsWrap" class="flex items-center gap-2">
           <button type="button" id="btnSelectAll" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Seleccionar todos</button>
           <button type="button" id="btnDeselectAll" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Limpiar</button>
         </div>
       </div>
 
-      <div class="flex flex-wrap gap-2 text-xs">
-        <button type="button" id="filterBtn-all" class="px-3 py-1 rounded-lg bg-blue-600 text-white font-medium transition" aria-pressed="true">Todos</button>
-        <button type="button" id="filterBtn-FA" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-red-300 border border-red-900/50 font-medium transition" aria-pressed="false">Frente Amplio</button>
-        <button type="button" id="filterBtn-CR" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-sky-900/50 font-medium transition" aria-pressed="false">Coalición Republicana</button>
+      <div id="filterButtonsContainer" class="flex flex-wrap gap-2 text-xs">
+        <button type="button" id="filterBtn-all" class="px-3 py-1 rounded-lg bg-blue-600 text-white font-medium transition" aria-pressed="true">Todos (31)</button>
+        <button type="button" id="filterBtn-FA" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-red-300 border border-red-900/50 font-medium transition" aria-pressed="false">Frente Amplio (18)</button>
+        <button type="button" id="filterBtn-CR" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-sky-900/50 font-medium transition" aria-pressed="false">Coalición Republicana (13)</button>
       </div>
 
       <div id="edilesList" class="max-h-52 overflow-y-auto space-y-1.5 pr-2 border border-slate-800/80 rounded-xl p-3 bg-slate-950/60">
       </div>
-      <p class="text-xs text-slate-400">
-        <span aria-hidden="true">📌</span> <strong>Mesa de Entrada:</strong> Se incluye automáticamente como destinatario formal <span class="text-blue-400 font-mono">junta@juntamvd.gub.uy</span>.
+      <p id="mesaEntradaNote" class="text-xs text-slate-400">
+        <span aria-hidden="true">📌</span> <strong>Mesa de Entrada / Secretaría:</strong> Se incluye automáticamente como destinatario formal <span id="mesaEntradaEmailDisplay" class="text-blue-400 font-mono">junta@juntamvd.gub.uy</span>.
       </p>
     </section>
 
@@ -146,7 +179,7 @@
 
       <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden text-xs">
         <div class="bg-slate-900 px-4 py-2 border-b border-slate-800 space-y-1 font-mono text-slate-400">
-          <div><strong class="text-slate-300">Para:</strong> junta@juntamvd.gub.uy</div>
+          <div><strong class="text-slate-300">Para:</strong> <span id="previewTo">junta@juntamvd.gub.uy</span></div>
           <div class="truncate"><strong class="text-slate-300">CCO:</strong> <span id="previewBcc" class="text-slate-400">31 casillas seleccionadas</span></div>
           <div><strong class="text-slate-300">Asunto:</strong> <span id="previewSubject" class="text-slate-200">Consulta ciudadana sobre equipo de asesores – Junta Departamental de Montevideo</span></div>
         </div>
@@ -189,8 +222,8 @@
 
     <footer class="text-center text-xs text-slate-400 pt-4 pb-12 space-y-2">
       <p>Iniciativa cívica independiente de código abierto amparada en la Ley N° 18.381 de la República Oriental del Uruguay.</p>
-      <p>Datos oficiales públicos obtenidos del portal de la <a href="https://www.juntamvd.gub.uy/public/institucional/integracion" target="_blank" rel="noopener noreferrer" class="text-slate-300 underline hover:text-white">Junta Departamental de Montevideo</a>.</p>
-      <p>Código: <a href="https://github.com/Lifetripperapp/transparencia-ediles" class="text-slate-300 underline hover:text-white">github.com/Lifetripperapp/transparencia-ediles</a></p>
+      <p>Datos oficiales públicos consolidados para los 19 Gobiernos Departamentales.</p>
+      <p>Código: <a href="https://github.com/Lifetripperapp/transparencia-ediles" target="_blank" rel="noopener noreferrer" class="text-slate-300 underline hover:text-white">github.com/Lifetripperapp/transparencia-ediles</a></p>
     </footer>
 
   </div>
