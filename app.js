@@ -532,6 +532,9 @@ function copySubject() {
 }
 
 function copyAll() {
+  if (typeof window.va === "function") {
+    window.va("event", { name: "copy_all_click", department: currentDept });
+  }
   const { subject, body } = generateMailContent();
   const fullText = `${recipientBlock()}\nAsunto: ${subject}\n\n${body}`;
   copyText(fullText, "Datos completos copiados (Para, CCO, Asunto y Texto).");
