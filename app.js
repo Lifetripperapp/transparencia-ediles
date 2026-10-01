@@ -485,11 +485,11 @@ function trackEvent(name, data) {
 
 function delivery() {
   const dept = deptData();
-  const bccList = Array.from(selectedEmails);
+  const ccList = Array.from(selectedEmails);
   if (dept.email) {
-    return { to: dept.email, bcc: bccList };
+    return { to: dept.email, cc: ccList };
   }
-  return { to: bccList.join(","), bcc: [] };
+  return { to: ccList.join(","), cc: [] };
 }
 
 function canSend() {
@@ -557,8 +557,8 @@ function renderDepartment() {
 
   const mesa = document.getElementById("mesaEntradaNote");
   mesa.textContent = dept.email
-    ? `Para: ${dept.email}. La copia oculta incluye solo las casillas marcadas.`
-    : "Sin correo institucional verificado: el envío usa únicamente las casillas marcadas.";
+    ? `Para: ${dept.email}. Las casillas marcadas van en copia visible (CC).`
+    : "Sin correo institucional verificado: el envío usa únicamente las casillas marcadas, todas en Para.";
   updatePreview();
 }
 
@@ -711,17 +711,17 @@ ${currentDept}, Uruguay`;
 }
 
 function recipientBlock() {
-  const { to, bcc } = delivery();
+  const { to, cc } = delivery();
   const para = to || "—";
-  const cco = bcc.length ? bcc.join(", ") : "—";
-  return `Para: ${para}\nCCO: ${cco}`;
+  const copia = cc.length ? cc.join(", ") : "—";
+  return `Para: ${para}\nCC: ${copia}`;
 }
 
 function mailtoUrl() {
   const { subject, body } = generateMailContent();
-  const { to, bcc } = delivery();
+  const { to, cc } = delivery();
   const params = [];
-  if (bcc.length) params.push(`bcc=${encodeURIComponent(bcc.join(","))}`);
+  if (cc.length) params.push(`cc=${encodeURIComponent(cc.join(","))}`);
   params.push(`subject=${encodeURIComponent(subject)}`);
   params.push(`body=${encodeURIComponent(body)}`);
   return `mailto:${to}?${params.join("&")}`;
@@ -729,24 +729,25 @@ function mailtoUrl() {
 
 function gmailUrl() {
   const { subject, body } = generateMailContent();
-  const { to, bcc } = delivery();
-  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&bcc=${encodeURIComponent(bcc.join(","))}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const { to, cc } = delivery();
+  const ccParam = cc.length ? `&cc=${encodeURIComponent(cc.join(","))}` : "";
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}${ccParam}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
 function updatePreview() {
   const { body, subject } = generateMailContent();
-  const { to, bcc } = delivery();
+  const { to, cc } = delivery();
   document.getElementById("emailBodyPreview").textContent = body;
   document.getElementById("previewTo").textContent = to || "—";
-  document.getElementById("previewBcc").textContent = bcc.length ? bcc.join(", ") : "—";
+  document.getElementById("previewCc").textContent = cc.length ? cc.join(", ") : "—";
   document.getElementById("previewSubject").textContent = subject;
 
   const sendEnabled = canSend();
   document.getElementById("btnSendMail").disabled = !sendEnabled;
   document.getElementById("btnSendGmail").disabled = !sendEnabled;
-  document.getElementById("btnCopyRecipients").disabled = !to && bcc.length === 0;
+  document.getElementById("btnCopyRecipients").disabled = !to && cc.length === 0;
   document.getElementById("btnCopySubject").disabled = false;
-  document.getElementById("btnCopyAll").disabled = !to && bcc.length === 0;
+  document.getElementById("btnCopyAll").disabled = !to && cc.length === 0;
 
   const hint = document.getElementById("mailtoHint");
   if (!sendEnabled) {
@@ -793,14 +794,14 @@ function triggerSend(target) {
   }
   const url = mailtoUrl();
   if (url.length > MAILTO_LIMIT) {
-    copyText(`${recipientBlock()}\nAsunto: ${subject}\n\n${body}`, "El enlace mailto supera ~2000 caracteres. Copiamos Para, CCO, asunto y texto.");
+    copyText(`${recipientBlock()}\nAsunto: ${subject}\n\n${body}`, "El enlace mailto supera ~2000 caracteres. Copiamos Para, CC, asunto y texto.");
     return;
   }
   window.location.href = url;
 }
 
 function copyRecipients() {
-  copyText(recipientBlock(), "Destinatarios copiados (Para y CCO).");
+  copyText(recipientBlock(), "Destinatarios copiados (Para y CC).");
 }
 
 function copySubject() {
@@ -810,7 +811,7 @@ function copySubject() {
 function copyAll() {
   trackEvent("copy_all_click", { department: currentDept });
   const { subject, body } = generateMailContent();
-  copyText(`${recipientBlock()}\nAsunto: ${subject}\n\n${body}`, "Datos completos copiados (Para, CCO, asunto y texto).");
+  copyText(`${recipientBlock()}\nAsunto: ${subject}\n\n${body}`, "Datos completos copiados (Para, CC, asunto y texto).");
 }
 
 document.getElementById("deptSelect").addEventListener("change", changeDepartment);
