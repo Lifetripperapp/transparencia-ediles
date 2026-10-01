@@ -1,0 +1,10 @@
+{
+  "name": "transparencia-ediles",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i src/input.css -o assets/styles.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
