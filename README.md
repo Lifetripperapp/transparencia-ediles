@@ -16,6 +16,9 @@ Espejo en GitHub Pages: [https://lifetripperapp.github.io/transparencia-ediles/]
 
 Código: [https://github.com/Lifetripperapp/transparencia-ediles](https://github.com/Lifetripperapp/transparencia-ediles)
 
+## Organigrama
+[organigrama.html](organigrama.html) muestra la Junta como un grafo desplegable: Mesa, Secretaría, bancadas, listas, ediles y equipos. Los datos públicos están en `data/montevideo.json`. Por ahora solo Montevideo tiene archivo; el selector deja el lugar de los otros departamentos. El grafo usa Cytoscape 3.34 (MIT) en `vendor/cytoscape.min.js`, servido desde el propio sitio.
+
 ## 🛠️ Tecnologías
 - HTML5 / Vanilla JS
 - Tailwind CSS compilado a `assets/styles.css` (sin CDN en producción)
