@@ -10,12 +10,28 @@ Permitir a cualquier ciudadano consultar de forma directa, ágil y transparente 
 4. **Remuneraciones:** Partidas y montos públicos destinados a tales efectos.
 
 ## 🚀 Probar la Aplicación
-🔗 **Sitio web:** [https://lifetripperapp.github.io/transparencia-ediles/](https://lifetripperapp.github.io/transparencia-ediles/)
+🔗 **Sitio principal:** [https://transparencia-ediles.vercel.app/](https://transparencia-ediles.vercel.app/)
+
+Espejo en GitHub Pages: [https://lifetripperapp.github.io/transparencia-ediles/](https://lifetripperapp.github.io/transparencia-ediles/)
+
+Código: [https://github.com/Lifetripperapp/transparencia-ediles](https://github.com/Lifetripperapp/transparencia-ediles)
 
 ## 🛠️ Tecnologías
 - HTML5 / Vanilla JS
-- Tailwind CSS (CDN)
-- Integración directa con clientes de correo (`mailto:` y Gmail Web API compose) sin servidores intermedios para máxima privacidad del usuario.
+- Tailwind CSS compilado a `assets/styles.css` (sin CDN en producción)
+- Integración directa con clientes de correo (`mailto:` y Gmail Web) sin servidores intermedios para máxima privacidad del usuario.
+
+## Estilos
+El CSS ya está generado y versionado. Vercel y GitHub Pages sirven el archivo estático; no hace falta un build al desplegar.
+
+Para regenerarlo después de cambiar clases en `index.html` o `app.js`:
+
+```bash
+npm install
+npm run build:css
+```
+
+Eso ejecuta Tailwind CLI 3.4 (`tailwindcss -i src/input.css -o assets/styles.css --minify`) y vuelve a escribir `assets/styles.css`.
 
 ## 📜 Licencia
-MIT License — Código libre y abierto para que cualquier persona, colectivo o departamento de Uruguay pueda replicarlo o adaptarlo.
+MIT License — Copyright (c) 2026 Martín Canabal. Código libre y abierto para que cualquier persona, colectivo o departamento de Uruguay pueda replicarlo o adaptarlo.
