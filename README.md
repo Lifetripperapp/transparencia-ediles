@@ -1,6 +1,8 @@
-# Transparencia Ediles Montevideo 🏛️🇺🇾
+# Transparencia Ediles Uruguay
 
-Iniciativa cívica abierta y comunitaria para facilitar el ejercicio del derecho ciudadano de **Acceso a la Información Pública (Ley N° 18.381)** ante la **Junta Departamental de Montevideo**.
+Iniciativa cívica abierta para redactar un pedido de **acceso a la información pública (Ley N° 18.381)** a la Junta Departamental de cualquiera de los 19 departamentos.
+
+Los contactos y las nóminas están en `app.js`. La fecha y la URL de cada uno están en [`data/SOURCES.md`](data/SOURCES.md). Lo que no se pudo confirmar aparece en la página como «sin verificar» y no se usa como destinatario.
 
 ## 🎯 Objetivo
 Permitir a cualquier ciudadano consultar de forma directa, ágil y transparente a los 31 ediles departamentales sobre:

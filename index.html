@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transparencia Ediles Montevideo — Consulta Ciudadana Abierta</title>
-  <meta name="description" content="Herramienta ciudadana para redactar una consulta a los 31 ediles de Montevideo sobre sus equipos de asesores.">
+  <title>Transparencia Ediles Uruguay — Consulta Ciudadana Abierta</title>
+  <meta name="description" content="Herramienta ciudadana para redactar un pedido de acceso a la información sobre los equipos de asesores de los ediles de tu departamento.">
   <link rel="canonical" href="https://transparencia-ediles.vercel.app/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_UY">
-  <meta property="og:site_name" content="Transparencia Ediles Montevideo">
-  <meta property="og:title" content="Transparencia Ediles Montevideo — Consulta Ciudadana Abierta">
-  <meta property="og:description" content="Herramienta ciudadana para redactar una consulta a los 31 ediles de Montevideo sobre sus equipos de asesores.">
+  <meta property="og:site_name" content="Transparencia Ediles Uruguay">
+  <meta property="og:title" content="Transparencia Ediles Uruguay — Consulta Ciudadana Abierta">
+  <meta property="og:description" content="Herramienta ciudadana para redactar un pedido de acceso a la información sobre los equipos de asesores de los ediles de tu departamento.">
   <meta property="og:url" content="https://transparencia-ediles.vercel.app/">
   <meta property="og:image" content="https://transparencia-ediles.vercel.app/assets/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Transparencia Ediles Montevideo, consulta ciudadana">
+  <meta property="og:image:alt" content="Transparencia Ediles Uruguay, consulta ciudadana">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Transparencia Ediles Montevideo — Consulta Ciudadana Abierta">
-  <meta name="twitter:description" content="Herramienta ciudadana para redactar una consulta a los 31 ediles de Montevideo sobre sus equipos de asesores.">
+  <meta name="twitter:title" content="Transparencia Ediles Uruguay — Consulta Ciudadana Abierta">
+  <meta name="twitter:description" content="Herramienta ciudadana para redactar un pedido de acceso a la información sobre los equipos de asesores de los ediles de tu departamento.">
   <meta name="twitter:image" content="https://transparencia-ediles.vercel.app/assets/og.png">
-  <meta name="twitter:image:alt" content="Transparencia Ediles Montevideo, consulta ciudadana">
+  <meta name="twitter:image:alt" content="Transparencia Ediles Uruguay, consulta ciudadana">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon.png" type="image/png" sizes="32x32">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,171 +29,217 @@
   <link rel="stylesheet" href="assets/styles.css">
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen py-8 px-4 sm:px-6 antialiased selection:bg-blue-600 selection:text-white">
-  <div class="max-w-3xl mx-auto space-y-6 sm:space-y-8">
+<body class="bg-slate-950 text-slate-100 min-h-screen py-8 px-4 sm:px-6 antialiased selection:bg-blue-600 selection:text-white overflow-x-hidden">
+  <main class="max-w-3xl mx-auto space-y-6 sm:space-y-8">
 
     <header class="text-center space-y-4 pt-4">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold tracking-wide border border-blue-500/20">
-        <span aria-hidden="true">🏛️</span> Transparencia Activa • Junta Departamental de Montevideo
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-sm font-semibold tracking-wide border border-blue-500/20">
+        <span aria-hidden="true">🏛️</span> Transparencia Activa • Gobiernos Departamentales de Uruguay
       </div>
 
       <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-        ¿Quiénes son los asesores de los Ediles de Montevideo?
+        ¿Quiénes son los asesores de los Ediles?
       </h1>
 
+      <div class="max-w-md mx-auto pt-2 text-left sm:text-center">
+        <label for="deptSelect" class="block text-sm font-medium text-slate-300 mb-1.5">
+          Seleccioná tu Departamento:
+        </label>
+        <div class="relative">
+          <select id="deptSelect" class="w-full bg-slate-900 border-2 border-blue-500/50 hover:border-blue-500 rounded-2xl px-4 py-3 pr-12 text-sm sm:text-base font-semibold text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition shadow-lg shadow-blue-950/30 cursor-pointer appearance-none">
+            <option value="Montevideo" selected>Montevideo (31 titulares)</option>
+            <option value="Canelones">Canelones</option>
+            <option value="Maldonado">Maldonado</option>
+            <option value="Colonia">Colonia</option>
+            <option value="Salto">Salto</option>
+            <option value="Paysandú">Paysandú</option>
+            <option value="San José">San José</option>
+            <option value="Florida">Florida</option>
+            <option value="Río Negro">Río Negro</option>
+            <option value="Rocha">Rocha</option>
+            <option value="Soriano">Soriano</option>
+            <option value="Tacuarembó">Tacuarembó</option>
+            <option value="Rivera">Rivera</option>
+            <option value="Cerro Largo">Cerro Largo</option>
+            <option value="Durazno">Durazno</option>
+            <option value="Lavalleja">Lavalleja</option>
+            <option value="Treinta y Tres">Treinta y Tres</option>
+            <option value="Artigas">Artigas</option>
+            <option value="Flores">Flores</option>
+          </select>
+          <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400" aria-hidden="true">▼</span>
+        </div>
+      </div>
+
       <div class="grid grid-cols-3 gap-3 sm:gap-4 max-w-xl mx-auto pt-2">
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
-          <div class="text-xs text-slate-400 font-medium">Ediles</div>
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center min-w-0">
+          <div class="text-sm text-slate-400 font-medium">Ediles</div>
           <div id="edilesTotal" class="text-xl sm:text-2xl font-bold text-white mt-1">31</div>
-          <div class="text-xs text-slate-400">titulares en funciones</div>
+          <div id="edilesCaption" class="text-sm text-slate-400">titulares en funciones</div>
         </div>
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
-          <div class="text-xs text-blue-400 font-medium">Bancadas</div>
-          <div id="bancadasTotal" class="text-xl sm:text-2xl font-bold text-blue-400 mt-1">2</div>
-          <div id="partySplit" class="text-xs text-slate-400">FA • CR</div>
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center min-w-0">
+          <div class="text-sm text-blue-400 font-medium">Órgano</div>
+          <div id="badgeJuntaCity" class="text-base sm:text-lg font-bold text-blue-400 mt-1 break-words">Montevideo</div>
+          <div class="text-sm text-slate-400">Junta Departamental</div>
         </div>
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
-          <div class="text-xs text-emerald-400 font-medium">Marco Legal</div>
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center min-w-0">
+          <div class="text-sm text-emerald-400 font-medium">Marco Legal</div>
           <div class="text-xl sm:text-2xl font-bold text-emerald-400 mt-1">18.381</div>
-          <div class="text-xs text-slate-400">Ley de Acceso a Información</div>
+          <div class="text-sm text-slate-400">Ley de Acceso a Información</div>
         </div>
       </div>
     </header>
 
-    <section class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl">
-      <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+    <section class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl" aria-labelledby="como-funciona">
+      <h2 id="como-funciona" class="text-base sm:text-lg font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
         <span aria-hidden="true">📖</span> ¿Qué es esta web y cómo funciona?
       </h2>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm text-slate-300">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-slate-300">
         <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80 space-y-1.5">
           <div class="font-semibold text-blue-400 flex items-center gap-1.5">
             <span aria-hidden="true">🎯</span> ¿Qué hace?
           </div>
           <p class="leading-relaxed">
-            Te permite <strong>consultar a los 31 ediles de Montevideo</strong> para saber quiénes integran sus equipos de asesores, qué tareas cumplen, cuánto cobran y si realmente trabajan para el edil o para la estructura de su partido político.
+            Te permite consultar a los <strong>ediles titulares</strong> de tu departamento para saber quiénes integran sus equipos de asesores, qué tareas cumplen, cuánto cobran y si trabajan para el edil o para la estructura de su partido.
           </p>
         </div>
 
         <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80 space-y-1.5">
           <div class="font-semibold text-amber-400 flex items-center gap-1.5">
-            <span aria-hidden="true">⚖️</span> Etapa 1: Consulta Directa (7 días)
+            <span aria-hidden="true">⚖️</span> Pedido voluntario y plazo legal
           </div>
           <p class="leading-relaxed">
-            Es un pedido voluntario inicial. Si los ediles no responden en <strong>una semana (7 días)</strong>, se formalizará el <em>Pedido de Acceso a la Información Pública (Ley 18.381)</em> con obligación legal de respuesta ante la Mesa de Entrada.
+            Este mensaje es un <strong>pedido voluntario</strong> de respuesta en 7 días. El plazo legal de un pedido de acceso a la información (Ley 18.381, art. 15) es de <strong>20 días hábiles</strong>. Si no hay respuesta voluntaria, el pedido formal se presenta ante la Mesa de Entrada.
           </p>
         </div>
       </div>
 
-      <div class="bg-blue-950/30 border border-blue-800/40 rounded-xl p-3.5 text-xs text-blue-200 flex items-start gap-3">
+      <div class="bg-blue-950/30 border border-blue-800/40 rounded-xl p-3.5 text-sm text-blue-200 flex items-start gap-3">
         <span class="text-base" aria-hidden="true">🔒</span>
         <div>
-          <strong>El control es 100% tuyo:</strong> Esta página <u>NO envía correos de forma automática ni guarda tus datos</u>. El sistema solo genera el borrador y abre tu propia aplicación de correo (Gmail, Mail, Outlook). <strong>Vos revisás todo y hacés clic en Enviar desde tu propia casilla personal.</strong>
+          <strong>El control es 100% tuyo:</strong> Esta página no envía correos ni guarda tus datos. Solo arma el borrador y, si lo pedís, abre tu correo (Gmail, Mail u Outlook). Vos revisás todo y enviás desde tu casilla.
         </div>
       </div>
     </section>
 
-    <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl">
-      <h2 class="text-base sm:text-lg font-semibold text-white flex items-center gap-2">
-        <span class="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600/30 text-blue-400 text-xs font-bold">1</span>
+    <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl" aria-labelledby="datos-firma">
+      <h2 id="datos-firma" class="text-base sm:text-lg font-semibold text-white flex items-center gap-2">
+        <span class="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600/30 text-blue-400 text-sm font-bold">1</span>
         Tus datos para la firma
       </h2>
+      <p class="text-sm text-slate-300 leading-relaxed">
+        Para este pedido voluntario, el nombre y la cédula son opcionales. Un pedido formal de acceso a la información (Ley 18.381, art. 13) tiene que identificar a quien lo hace e indicar domicilio y un medio de contacto. Esos datos los agregás vos al formalizarlo; esta página no los pide ni los guarda.
+      </p>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label for="nombre" class="block text-xs font-medium text-slate-400 mb-1">Tu Nombre y Apellido (Opcional)</label>
+          <label for="nombre" class="block text-sm font-medium text-slate-300 mb-1">Tu nombre y apellido (opcional)</label>
           <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Ej: Juan Pérez" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 transition">
         </div>
         <div>
-          <label for="cedula" class="block text-xs font-medium text-slate-400 mb-1">Cédula de Identidad (Opcional)</label>
+          <label for="cedula" class="block text-sm font-medium text-slate-300 mb-1">Cédula de identidad (opcional)</label>
           <input type="text" id="cedula" name="cedula" autocomplete="off" placeholder="Ej: 1.234.567-8" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 transition">
         </div>
       </div>
     </section>
 
-    <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <h2 class="text-base sm:text-lg font-semibold text-white flex items-center gap-2">
-          <span class="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600/30 text-blue-400 text-xs font-bold">2</span>
-          Destinatarios (<span id="selectedCount">31</span> seleccionados)
+    <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl" aria-labelledby="destinatarios-titulo">
+      <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+        <h2 id="destinatarios-titulo" class="text-base sm:text-lg font-semibold text-white flex items-start gap-2 min-w-0">
+          <span class="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600/30 text-blue-400 text-sm font-bold shrink-0">2</span>
+          <span class="min-w-0">
+            Destinatarios
+            <span id="deptRecipientSummary" class="block text-sm font-normal text-slate-300 break-words">Montevideo · 31 seleccionados</span>
+          </span>
         </h2>
-        <div class="flex items-center gap-2">
-          <button type="button" id="btnSelectAll" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Seleccionar todos</button>
-          <button type="button" id="btnDeselectAll" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Limpiar</button>
+        <div id="selectionButtonsWrap" class="flex items-center gap-2 shrink-0">
+          <button type="button" id="btnSelectAll" class="text-sm px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition">Seleccionar todos</button>
+          <button type="button" id="btnDeselectAll" class="text-sm px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition">Limpiar</button>
         </div>
       </div>
 
-      <div class="flex flex-wrap gap-2 text-xs">
-        <button type="button" id="filterBtn-all" class="px-3 py-1 rounded-lg bg-blue-600 text-white font-medium transition" aria-pressed="true">Todos</button>
-        <button type="button" id="filterBtn-FA" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-red-300 border border-red-900/50 font-medium transition" aria-pressed="false">Frente Amplio</button>
-        <button type="button" id="filterBtn-CR" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-sky-900/50 font-medium transition" aria-pressed="false">Coalición Republicana</button>
+      <div id="contactStrip" class="text-sm text-slate-300 leading-relaxed bg-slate-950/60 border border-slate-800 rounded-xl p-3"></div>
+
+      <div id="filterButtonsContainer" class="flex flex-wrap gap-2" role="group" aria-label="Filtrar por partido">
+        <button type="button" id="filterBtn-all" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-sm font-medium" aria-pressed="true">Todos (31)</button>
+        <button type="button" id="filterBtn-FA" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-red-300 border border-red-900/50 text-sm font-medium" aria-pressed="false">Frente Amplio (17)</button>
+        <button type="button" id="filterBtn-CR" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-sky-900/50 text-sm font-medium" aria-pressed="false">Coalición Republicana (14)</button>
       </div>
 
-      <div id="edilesList" class="max-h-52 overflow-y-auto space-y-1.5 pr-2 border border-slate-800/80 rounded-xl p-3 bg-slate-950/60">
-      </div>
-      <p class="text-xs text-slate-400">
-        <span aria-hidden="true">📌</span> <strong>Mesa de Entrada:</strong> Se incluye automáticamente como destinatario formal <span class="text-blue-400 font-mono">junta@juntamvd.gub.uy</span>.
-      </p>
+      <div id="edilesList" class="max-h-80 overflow-y-auto overflow-x-hidden space-y-1.5 pr-1 border border-slate-800/80 rounded-xl p-3 bg-slate-950/60"></div>
+      <p id="mesaEntradaNote" class="text-sm text-slate-300"></p>
     </section>
 
-    <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl">
-      <div class="flex items-center justify-between">
-        <h2 class="text-base sm:text-lg font-semibold text-white flex items-center gap-2">
-          <span class="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600/30 text-blue-400 text-xs font-bold">3</span>
-          Texto exacto del correo que vas a enviar
+    <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl" aria-labelledby="texto-correo">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <h2 id="texto-correo" class="text-base sm:text-lg font-semibold text-white flex items-center gap-2 min-w-0">
+          <span class="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600/30 text-blue-400 text-sm font-bold shrink-0">3</span>
+          Texto exacto del correo
         </h2>
-        <span class="text-xs text-emerald-400 bg-emerald-950/50 border border-emerald-800/60 px-2.5 py-0.5 rounded-full font-medium">Vista previa en vivo</span>
+        <span class="text-sm text-emerald-300 bg-emerald-950/50 border border-emerald-800/60 px-2.5 py-0.5 rounded-full font-medium">Vista previa en vivo</span>
       </div>
 
-      <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden text-xs">
-        <div class="bg-slate-900 px-4 py-2 border-b border-slate-800 space-y-1 font-mono text-slate-400">
-          <div><strong class="text-slate-300">Para:</strong> junta@juntamvd.gub.uy</div>
-          <div class="truncate"><strong class="text-slate-300">CCO:</strong> <span id="previewBcc" class="text-slate-400">31 casillas seleccionadas</span></div>
-          <div><strong class="text-slate-300">Asunto:</strong> <span id="previewSubject" class="text-slate-200">Consulta ciudadana sobre equipo de asesores – Junta Departamental de Montevideo</span></div>
+      <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden text-sm">
+        <div class="bg-slate-900 px-4 py-2 border-b border-slate-800 space-y-1 font-mono text-slate-300 break-words">
+          <div><strong class="text-slate-100">Para:</strong> <span id="previewTo">junta@juntamvd.gub.uy</span></div>
+          <div><strong class="text-slate-100">CC:</strong> <span id="previewCc" class="break-all">—</span></div>
+          <div><strong class="text-slate-100">Asunto:</strong> <span id="previewSubject" class="text-slate-100">Pedido de información sobre asesores – Junta Departamental de Montevideo</span></div>
         </div>
-        <div class="p-4 bg-slate-950/90 text-slate-300 whitespace-pre-wrap font-sans leading-relaxed max-h-72 overflow-y-auto" id="emailBodyPreview">
-        </div>
+        <div class="p-4 bg-slate-950/90 text-slate-200 whitespace-pre-wrap font-sans leading-relaxed max-h-72 overflow-y-auto text-sm" id="emailBodyPreview"></div>
       </div>
     </section>
 
-    <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl">
-      <h2 class="text-base sm:text-lg font-semibold text-white flex items-center gap-2">
-        <span class="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600/30 text-blue-400 text-xs font-bold">4</span>
-        Elegí cómo abrir y enviar tu correo
+    <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl" aria-labelledby="enviar-correo">
+      <h2 id="enviar-correo" class="text-base sm:text-lg font-semibold text-white flex items-center gap-2">
+        <span class="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600/30 text-blue-400 text-sm font-bold">4</span>
+        Elegí cómo abrir tu correo
       </h2>
+      <p class="text-sm text-slate-300">Todas las casillas quedan visibles, en Para y en CC. El botón principal abre tu app de correo con el texto completo.</p>
+      <p id="mailtoHint" class="text-sm text-amber-200"></p>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-        <button type="button" id="btnSendMail" class="flex items-center justify-center gap-3 w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3.5 px-5 rounded-xl transition shadow-lg shadow-blue-600/20 text-sm">
-          <span class="text-lg" aria-hidden="true">✉️</span> Abrir en mi App de Mail / Celular
+      <button type="button" id="btnSendMail" class="flex flex-wrap items-center justify-center gap-3 w-full min-w-0 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3.5 px-5 rounded-xl transition shadow-lg shadow-blue-600/20 text-sm text-center">
+        <span aria-hidden="true">✉️</span> Abrir en mi app de correo
+      </button>
+
+      <div class="space-y-2">
+        <p class="text-sm text-slate-300">¿No se abrió tu correo o el texto quedó cortado?</p>
+        <button type="button" id="btnSendShort" class="flex flex-wrap items-center justify-center gap-3 w-full min-w-0 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed border border-slate-700 text-slate-100 font-semibold py-3.5 px-5 rounded-xl transition text-sm text-center">
+          <span aria-hidden="true">📋</span> Copiar el texto y abrir sin cuerpo
         </button>
-        <button type="button" id="btnSendGmail" class="flex items-center justify-center gap-3 w-full bg-red-600 hover:bg-red-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3.5 px-5 rounded-xl transition shadow-lg shadow-red-600/20 text-sm">
-          <span class="text-lg" aria-hidden="true">🌐</span> Abrir directo en Gmail Web
-        </button>
+        <p id="shortMailStatus" class="hidden text-sm text-emerald-300 font-medium" role="status"></p>
       </div>
+
+      <button type="button" id="btnSendGmail" class="flex flex-wrap items-center justify-center gap-3 w-full min-w-0 bg-red-600 hover:bg-red-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3.5 px-5 rounded-xl transition shadow-lg shadow-red-600/20 text-sm text-center">
+        <span aria-hidden="true">🌐</span> Abrir en Gmail
+      </button>
 
       <div class="pt-3 border-t border-slate-800 space-y-3">
-        <p class="text-xs text-slate-400">Si el correo se abre incompleto, el enlace es demasiado largo: copiá destinatarios, asunto y texto, y pegalo a mano.</p>
         <div class="flex flex-wrap gap-2">
-          <button type="button" id="btnCopyRecipients" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-300 transition">
+          <button type="button" id="btnCopyRecipients" class="text-sm px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-200 transition">
             <span aria-hidden="true">📋</span> Copiar destinatarios
           </button>
-          <button type="button" id="btnCopySubject" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-300 transition">
+          <button type="button" id="btnCopySubject" class="text-sm px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-200 transition">
             <span aria-hidden="true">📋</span> Copiar asunto
           </button>
-          <button type="button" id="btnCopyAll" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-300 transition">
-            <span aria-hidden="true">📋</span> Copiar todo (destinatarios, asunto y texto)
+          <button type="button" id="btnCopyAll" class="text-sm px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-200 transition">
+            <span aria-hidden="true">📋</span> Copiar todo
           </button>
         </div>
-        <div id="copyToast" class="hidden text-xs text-emerald-400 font-medium" role="status"></div>
+        <div id="copyToast" class="hidden text-sm text-emerald-300 font-medium" role="status"></div>
       </div>
     </section>
 
-    <footer class="text-center text-xs text-slate-400 pt-4 pb-12 space-y-2">
-      <p>Iniciativa cívica independiente de código abierto amparada en la Ley N° 18.381 de la República Oriental del Uruguay.</p>
-      <p>Datos oficiales públicos obtenidos del portal de la <a href="https://www.juntamvd.gub.uy/public/institucional/integracion" target="_blank" rel="noopener noreferrer" class="text-slate-300 underline hover:text-white">Junta Departamental de Montevideo</a>.</p>
-      <p>Código: <a href="https://github.com/Lifetripperapp/transparencia-ediles" class="text-slate-300 underline hover:text-white">github.com/Lifetripperapp/transparencia-ediles</a></p>
+    <footer class="text-center text-sm text-slate-400 pt-4 pb-12 space-y-2">
+      <p>Iniciativa cívica independiente de código abierto. El pedido formal se ampara en la Ley N° 18.381.</p>
+      <p>Contactos y nóminas revisados el 1 de octubre de 2026 en el sitio de cada Junta. Lo que no se pudo confirmar figura como «sin verificar».</p>
+      <p>
+        <a href="privacidad.html" class="text-slate-300 underline hover:text-white">Privacidad</a>
+        · Código: <a href="https://github.com/Lifetripperapp/transparencia-ediles" target="_blank" rel="noopener noreferrer" class="text-slate-300 underline hover:text-white">github.com/Lifetripperapp/transparencia-ediles</a>
+        · Fuentes: <span class="text-slate-300">data/SOURCES.md</span>
+      </p>
     </footer>
 
-  </div>
+  </main>
 
   <script src="app.js"></script>
 </body>
