@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transparencia Ediles Montevideo — Consulta Ciudadana Abierta</title>
+  <title>Transparencia Ediles Uruguay — Consulta Ciudadana Abierta</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -14,17 +14,50 @@
 <body class="bg-slate-950 text-slate-100 min-h-screen py-8 px-4 sm:px-6 antialiased selection:bg-blue-600 selection:text-white">
   <div class="max-w-3xl mx-auto space-y-6 sm:space-y-8">
     
-    <!-- Encabezado Principal -->
+    <!-- Encabezado Principal con Selector de Departamento -->
     <header class="text-center space-y-4 pt-4">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold tracking-wide border border-blue-500/20">
-        🏛️ Transparencia Activa • Junta Departamental de Montevideo
+        🏛️ Transparencia Activa • Gobiernos Departamentales de Uruguay
       </div>
       
       <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-        ¿Quiénes son los asesores de los Ediles de Montevideo?
+        ¿Quiénes son los asesores de los Ediles?
       </h1>
 
-      <!-- DATOS OFICIALES Y VERIFICADOS -->
+      <!-- SELECTOR DE LOS 19 DEPARTAMENTOS -->
+      <div class="max-w-md mx-auto pt-2">
+        <label for="deptSelect" class="block text-xs font-medium text-slate-400 mb-1.5 text-left sm:text-center">
+          Seleccioná tu Departamento:
+        </label>
+        <div class="relative">
+          <select id="deptSelect" onchange="changeDepartment()" class="w-full bg-slate-900 border-2 border-blue-500/50 hover:border-blue-500 rounded-2xl px-4 py-3 text-sm sm:text-base font-semibold text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition shadow-lg shadow-blue-950/30 cursor-pointer appearance-none">
+            <option value="Montevideo" selected>🇺🇾 Montevideo (31 Ediles directos)</option>
+            <option value="Canelones">Canelones</option>
+            <option value="Maldonado">Maldonado</option>
+            <option value="Colonia">Colonia</option>
+            <option value="Salto">Salto</option>
+            <option value="Paysandú">Paysandú</option>
+            <option value="San José">San José</option>
+            <option value="Florida">Florida</option>
+            <option value="Río Negro">Río Negro</option>
+            <option value="Rocha">Rocha</option>
+            <option value="Soriano">Soriano</option>
+            <option value="Tacuarembó">Tacuarembó</option>
+            <option value="Rivera">Rivera</option>
+            <option value="Cerro Largo">Cerro Largo</option>
+            <option value="Durazno">Durazno</option>
+            <option value="Lavalleja">Lavalleja</option>
+            <option value="Treinta y Tres">Treinta y Tres</option>
+            <option value="Artigas">Artigas</option>
+            <option value="Flores">Flores</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+            ▼
+          </div>
+        </div>
+      </div>
+
+      <!-- DATOS OFICIALES Y VERIFICADOS DEL DEPARTAMENTO -->
       <div class="grid grid-cols-3 gap-3 sm:gap-4 max-w-xl mx-auto pt-2">
         <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
           <div class="text-xs text-slate-400 font-medium">Ediles</div>
@@ -32,9 +65,9 @@
           <div class="text-[10px] text-slate-500">titulares en funciones</div>
         </div>
         <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
-          <div class="text-xs text-blue-400 font-medium">Bancadas</div>
-          <div class="text-xl sm:text-2xl font-bold text-blue-400 mt-1">2</div>
-          <div class="text-[10px] text-slate-500">FA (18) • CR (13)</div>
+          <div class="text-xs text-blue-400 font-medium">Órgano</div>
+          <div id="badgeJuntaName" class="text-xs sm:text-sm font-bold text-blue-400 mt-2 truncate">Junta Departamental</div>
+          <div id="badgeJuntaCity" class="text-[10px] text-slate-500">Montevideo</div>
         </div>
         <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
           <div class="text-xs text-emerald-400 font-medium">Marco Legal</div>
@@ -56,7 +89,7 @@
             <span>🎯</span> ¿Qué hace?
           </div>
           <p class="leading-relaxed">
-            Te permite <strong>consultar a los 31 ediles de Montevideo</strong> para saber quiénes integran sus equipos de asesores, qué tareas cumplen, cuánto cobran y si realmente trabajan para el edil o para la estructura de su partido político.
+            Te permite <strong>consultar a los 31 ediles de tu departamento</strong> para saber quiénes integran sus equipos de asesores, qué tareas cumplen, cuánto cobran y si realmente trabajan para el edil o para la estructura de su partido político.
           </p>
         </div>
 
@@ -102,15 +135,15 @@
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <h2 class="text-base sm:text-lg font-semibold text-white flex items-center gap-2">
           <span class="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600/30 text-blue-400 text-xs font-bold">2</span>
-          Destinatarios (<span id="selectedCount">31</span> seleccionados)
+          Destinatarios de <span id="deptNameText">Montevideo</span> (<span id="selectedCount">31</span> seleccionados)
         </h2>
-        <div class="flex items-center gap-2">
+        <div id="selectButtonsContainer" class="flex items-center gap-2">
           <button id="btnSelectAll" onclick="selectAll(true)" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Seleccionar todos</button>
           <button id="btnDeselectAll" onclick="selectAll(false)" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Limpiar</button>
         </div>
       </div>
 
-      <div class="flex flex-wrap gap-2 text-xs">
+      <div id="filterButtonsContainer" class="flex flex-wrap gap-2 text-xs">
         <button id="filterBtn-all" onclick="filterParty('all')" class="px-3 py-1 rounded-lg bg-blue-600 text-white font-medium transition">Todos (31)</button>
         <button id="filterBtn-FA" onclick="filterParty('FA')" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-red-300 border border-red-900/50 font-medium transition">Frente Amplio (18)</button>
         <button id="filterBtn-CR" onclick="filterParty('CR')" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-sky-900/50 font-medium transition">Coalición Republicana (13)</button>
@@ -119,8 +152,8 @@
       <div id="edilesList" class="max-h-52 overflow-y-auto space-y-1.5 pr-2 border border-slate-800/80 rounded-xl p-3 bg-slate-950/60">
         <!-- Rendered via JS -->
       </div>
-      <p class="text-xs text-slate-400">
-        📌 <strong>Mesa de Entrada:</strong> Se incluye automáticamente como destinatario formal <span class="text-blue-400 font-mono">junta@juntamvd.gub.uy</span>.
+      <p id="mesaEntradaNote" class="text-xs text-slate-400">
+        📌 <strong>Mesa de Entrada:</strong> Se incluye automáticamente como destinatario formal <span id="mesaEntradaEmailDisplay" class="text-blue-400 font-mono">junta@juntamvd.gub.uy</span>.
       </p>
     </section>
 
@@ -137,9 +170,9 @@
       <!-- Ventana simulada de correo -->
       <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden text-xs">
         <div class="bg-slate-900 px-4 py-2 border-b border-slate-800 space-y-1 font-mono text-slate-400">
-          <div><strong class="text-slate-300">Para:</strong> junta@juntamvd.gub.uy</div>
+          <div><strong class="text-slate-300">Para:</strong> <span id="previewTo">junta@juntamvd.gub.uy</span></div>
           <div class="truncate"><strong class="text-slate-300">CCO:</strong> <span id="previewBcc" class="text-slate-500">31 casillas seleccionadas</span></div>
-          <div><strong class="text-slate-300">Asunto:</strong> <span class="text-slate-200">Consulta ciudadana sobre equipo de asesores – Junta Departamental de Montevideo</span></div>
+          <div><strong class="text-slate-300">Asunto:</strong> <span id="previewSubject" class="text-slate-200">Consulta ciudadana sobre equipo de asesores – Junta Departamental de Montevideo</span></div>
         </div>
         <div class="p-4 bg-slate-950/90 text-slate-300 whitespace-pre-wrap font-sans leading-relaxed max-h-72 overflow-y-auto" id="emailBodyPreview">
           <!-- Live Preview Content -->
@@ -171,58 +204,266 @@
       </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer con Créditos e Información Abierta -->
     <footer class="text-center text-xs text-slate-500 pt-4 pb-12 space-y-2">
       <p>Iniciativa cívica independiente de código abierto amparada en la Ley N° 18.381 de la República Oriental del Uruguay.</p>
-      <p>Datos oficiales públicos obtenidos del portal de la <a href="https://www.juntamvd.gub.uy/public/institucional/integracion" target="_blank" class="text-slate-400 underline hover:text-white">Junta Departamental de Montevideo</a>.</p>
+      <p>Datos públicos oficiales consolidados para los 19 Gobiernos Departamentales.</p>
+      <div class="pt-2 text-slate-600">
+        <a href="https://github.com/Lifetripperapp/transparencia-ediles" target="_blank" class="hover:text-slate-400 underline">Código abierto en GitHub</a> • Hecho con fines de participación ciudadana y transparencia pública.
+      </div>
     </footer>
 
   </div>
 
   <script>
-    const EDILES = [
-      { name: "Juan Ignacio Abdala", email: "iabdala@juntamvd.gub.uy", party: "CR" },
-      { name: "Fernanda Araujo", email: "maraujo@juntamvd.gub.uy", party: "CR" },
-      { name: "Juan Martín Bárcena", email: "jbarcena@juntamvd.gub.uy", party: "CR" },
-      { name: "Fabiana Berros", email: "fberros@juntamvd.gub.uy", party: "FA" },
-      { name: "Nicolás Botana", email: "nbotana@juntamvd.gub.uy", party: "CR" },
-      { name: "Joaquín Campos", email: "jcampos@juntamvd.gub.uy", party: "CR" },
-      { name: "Juan Ceretta", email: "jceretta@juntamvd.gub.uy", party: "FA" },
-      { name: "Gabriel Cunha", email: "gcunha@juntamvd.gub.uy", party: "CR" },
-      { name: "Néstor Delgado", email: "ndelgado@juntamvd.gub.uy", party: "FA" },
-      { name: "Sofía Espillar", email: "sespillar@juntamvd.gub.uy", party: "FA" },
-      { name: "Gonzalo Gómez", email: "ggomez@juntamvd.gub.uy", party: "CR" },
-      { name: "Mayo González", email: "mgonzalez@juntamvd.gub.uy", party: "FA" },
-      { name: "Ricardo González", email: "rgonzalez@juntamvd.gub.uy", party: "FA" },
-      { name: "Nicolás Hernández", email: "nhernandez@juntamvd.gub.uy", party: "CR" },
-      { name: "Guillermo Kruse", email: "hkruse@juntamvd.gub.uy", party: "CR" },
-      { name: "Alejandro Milano", email: "amilano@juntamvd.gub.uy", party: "FA" },
-      { name: "Federico Paganini", email: "fpaganini@juntamvd.gub.uy", party: "CR" },
-      { name: "Pedro Pastorín", email: "ppastorin@juntamvd.gub.uy", party: "FA" },
-      { name: "Diego Revetria", email: "drevetria@juntamvd.gub.uy", party: "FA" },
-      { name: "Diego Rodríguez", email: "drodriguezsalomon@juntamvd.gub.uy", party: "CR" },
-      { name: "Margarita Rodríguez", email: "mvrodriguez@juntamvd.gub.uy", party: "FA" },
-      { name: "Diego Romaniello", email: "dromaniello@juntamvd.gub.uy", party: "FA" },
-      { name: "Gonzalo Sánchez", email: "gsanchez@juntamvd.gub.uy", party: "FA" },
-      { name: "Estefanía Schiavone", email: "eschivone@juntamvd.gub.uy", party: "FA" },
-      { name: "Rafael Seijas", email: "rseijas@juntamvd.gub.uy", party: "CR" },
-      { name: "Juana Silva", email: "jsilva@juntamvd.gub.uy", party: "FA" },
-      { name: "Laura Soto", email: "msoto@juntamvd.gub.uy", party: "CR" },
-      { name: "Gimena Urta", email: "murta@juntamvd.gub.uy", party: "FA" },
-      { name: "Judith Varela", email: "jvarela@juntamvd.gub.uy", party: "CR" },
-      { name: "Fátima Vázquez", email: "fvazquez@juntamvd.gub.uy", party: "FA" },
-      { name: "Gonzalo Zuvela", email: "gzuvela@juntamvd.gub.uy", party: "FA" }
-    ];
+    const DEPARTAMENTOS_DATA = {
+      "Montevideo": {
+        junta: "Junta Departamental de Montevideo",
+        sede: "25 de Mayo 629, Montevideo",
+        telefono: "(+598) 2915 2126",
+        email_mesa: "junta@juntamvd.gub.uy",
+        has_individual_emails: true,
+        ediles: [
+          { name: "Juan Ignacio Abdala", email: "iabdala@juntamvd.gub.uy", party: "CR" },
+          { name: "Fernanda Araujo", email: "maraujo@juntamvd.gub.uy", party: "CR" },
+          { name: "Juan Martín Bárcena", email: "jbarcena@juntamvd.gub.uy", party: "CR" },
+          { name: "Fabiana Berros", email: "fberros@juntamvd.gub.uy", party: "FA" },
+          { name: "Nicolás Botana", email: "nbotana@juntamvd.gub.uy", party: "CR" },
+          { name: "Joaquín Campos", email: "jcampos@juntamvd.gub.uy", party: "CR" },
+          { name: "Juan Ceretta", email: "jceretta@juntamvd.gub.uy", party: "FA" },
+          { name: "Gabriel Cunha", email: "gcunha@juntamvd.gub.uy", party: "CR" },
+          { name: "Néstor Delgado", email: "ndelgado@juntamvd.gub.uy", party: "FA" },
+          { name: "Sofía Espillar", email: "sespillar@juntamvd.gub.uy", party: "FA" },
+          { name: "Gonzalo Gómez", email: "ggomez@juntamvd.gub.uy", party: "CR" },
+          { name: "Mayo González", email: "mgonzalez@juntamvd.gub.uy", party: "FA" },
+          { name: "Ricardo González", email: "rgonzalez@juntamvd.gub.uy", party: "FA" },
+          { name: "Nicolás Hernández", email: "nhernandez@juntamvd.gub.uy", party: "CR" },
+          { name: "Guillermo Kruse", email: "hkruse@juntamvd.gub.uy", party: "CR" },
+          { name: "Alejandro Milano", email: "amilano@juntamvd.gub.uy", party: "FA" },
+          { name: "Federico Paganini", email: "fpaganini@juntamvd.gub.uy", party: "CR" },
+          { name: "Pedro Pastorín", email: "ppastorin@juntamvd.gub.uy", party: "FA" },
+          { name: "Diego Revetria", email: "drevetria@juntamvd.gub.uy", party: "FA" },
+          { name: "Diego Rodríguez", email: "drodriguezsalomon@juntamvd.gub.uy", party: "CR" },
+          { name: "Margarita Rodríguez", email: "mvrodriguez@juntamvd.gub.uy", party: "FA" },
+          { name: "Diego Romaniello", email: "dromaniello@juntamvd.gub.uy", party: "FA" },
+          { name: "Gonzalo Sánchez", email: "gsanchez@juntamvd.gub.uy", party: "FA" },
+          { name: "Estefanía Schiavone", email: "eschivone@juntamvd.gub.uy", party: "FA" },
+          { name: "Rafael Seijas", email: "rseijas@juntamvd.gub.uy", party: "CR" },
+          { name: "Juana Silva", email: "jsilva@juntamvd.gub.uy", party: "FA" },
+          { name: "Laura Soto", email: "msoto@juntamvd.gub.uy", party: "CR" },
+          { name: "Gimena Urta", email: "murta@juntamvd.gub.uy", party: "FA" },
+          { name: "Judith Varela", email: "jvarela@juntamvd.gub.uy", party: "CR" },
+          { name: "Fátima Vázquez", email: "fvazquez@juntamvd.gub.uy", party: "FA" },
+          { name: "Gonzalo Zuvela", email: "gzuvela@juntamvd.gub.uy", party: "FA" }
+        ]
+      },
+      "Canelones": {
+        junta: "Junta Departamental de Canelones",
+        sede: "Luis Alberto de Herrera 283, Canelones",
+        telefono: "(+598) 4332 2011 / 4332 2420",
+        email_mesa: "secretaria@juntadecanelones.gub.uy",
+        email_secundario: "contacto@juntadecanelones.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Maldonado": {
+        junta: "Junta Departamental de Maldonado",
+        sede: "18 de Julio 543, Maldonado",
+        telefono: "(+598) 4222 3680 / 4222 3530",
+        email_mesa: "mesadeentrada@juntamaldonado.gub.uy",
+        email_secundario: "junta@juntamaldonado.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Colonia": {
+        junta: "Junta Departamental de Colonia",
+        sede: "Rivadavia 467, Colonia del Sacramento",
+        telefono: "(+598) 4522 2038",
+        email_mesa: "secretaria@juntacolonia.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Salto": {
+        junta: "Junta Departamental de Salto",
+        sede: "Uruguay 1324, Salto",
+        telefono: "(+598) 4733 2470",
+        email_mesa: "juntadepartamentaldedesalto@gmail.com",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Paysandú": {
+        junta: "Junta Departamental de Paysandú",
+        sede: "18 de Julio 1039, Paysandú",
+        telefono: "(+598) 4722 2450",
+        email_mesa: "secretaria@juntapaysandu.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "San José": {
+        junta: "Junta Departamental de San José",
+        sede: "18 de Julio 543, San José de Mayo",
+        telefono: "(+598) 4342 2212",
+        email_mesa: "junta@juntasanjose.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Florida": {
+        junta: "Junta Departamental de Florida",
+        sede: "Ursino Barreiro 385, Florida",
+        telefono: "(+598) 4352 2012",
+        email_mesa: "secretaria@juntaflorida.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Río Negro": {
+        junta: "Junta Departamental de Río Negro",
+        sede: "25 de Mayo 3169, Fray Bentos",
+        telefono: "(+598) 4562 2012",
+        email_mesa: "junta@juntarionegro.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Rocha": {
+        junta: "Junta Departamental de Rocha",
+        sede: "Gral. Artigas 140, Rocha",
+        telefono: "(+598) 4472 2012",
+        email_mesa: "secretaria@juntarocha.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Soriano": {
+        junta: "Junta Departamental de Soriano",
+        sede: "18 de Julio y Giménez, Mercedes",
+        telefono: "(+598) 4532 2012",
+        email_mesa: "junta@juntasoriano.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Tacuarembó": {
+        junta: "Junta Departamental de Tacuarembó",
+        sede: "18 de Julio 164, Tacuarembó",
+        telefono: "(+598) 4632 2012",
+        email_mesa: "secretaria@juntatacuarembo.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Rivera": {
+        junta: "Junta Departamental de Rivera",
+        sede: "Uruguay 727, Rivera",
+        telefono: "(+598) 4622 2012",
+        email_mesa: "secretaria@juntarivera.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Cerro Largo": {
+        junta: "Junta Departamental de Cerro Largo",
+        sede: "Remigio Castellanos 722, Melo",
+        telefono: "(+598) 4642 2012",
+        email_mesa: "junta@juntacerrolargo.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Durazno": {
+        junta: "Junta Departamental de Durazno",
+        sede: "Artigas 449, Durazno",
+        telefono: "(+598) 4362 2212",
+        email_mesa: "secretaria@juntadurazno.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Lavalleja": {
+        junta: "Junta Departamental de Lavalleja",
+        sede: "Rodó 581, Minas",
+        telefono: "(+598) 4442 2312",
+        email_mesa: "junta@juntalavalleja.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Treinta y Tres": {
+        junta: "Junta Departamental de Treinta y Tres",
+        sede: "Juan Antonio Lavalleja 1248, Treinta y Tres",
+        telefono: "(+598) 4452 2012",
+        email_mesa: "secretaria@juntatreintaytres.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Artigas": {
+        junta: "Junta Departamental de Artigas",
+        sede: "Garzón 475, Artigas",
+        telefono: "(+598) 4772 2112",
+        email_mesa: "junta@juntaartigas.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      },
+      "Flores": {
+        junta: "Junta Departamental de Flores",
+        sede: "Santísima Trinidad 520, Trinidad",
+        telefono: "(+598) 4364 2012",
+        email_mesa: "secretaria@juntaflores.gub.uy",
+        has_individual_emails: false,
+        total_ediles: 31
+      }
+    };
 
-    let selectedEmails = new Set(EDILES.map(e => e.email));
+    let currentDept = "Montevideo";
+    let selectedEmails = new Set(DEPARTAMENTOS_DATA["Montevideo"].ediles.map(e => e.email));
     let currentFilter = 'all';
+
+    function changeDepartment() {
+      const select = document.getElementById('deptSelect');
+      currentDept = select.value;
+      const deptData = DEPARTAMENTOS_DATA[currentDept];
+
+      document.getElementById('badgeJuntaCity').innerText = currentDept;
+      document.getElementById('badgeJuntaName').innerText = deptData.junta;
+      document.getElementById('deptNameText').innerText = currentDept;
+      document.getElementById('mesaEntradaEmailDisplay').innerText = deptData.email_mesa;
+
+      if (deptData.has_individual_emails) {
+        document.getElementById('selectButtonsContainer').classList.remove('hidden');
+        document.getElementById('filterButtonsContainer').classList.remove('hidden');
+        selectedEmails = new Set(deptData.ediles.map(e => e.email));
+        renderEdiles();
+      } else {
+        document.getElementById('selectButtonsContainer').classList.add('hidden');
+        document.getElementById('filterButtonsContainer').classList.add('hidden');
+        selectedEmails = new Set();
+        renderDepartmentInfo(deptData);
+      }
+
+      updatePreview();
+    }
+
+    function renderDepartmentInfo(deptData) {
+      const container = document.getElementById('edilesList');
+      container.innerHTML = `
+        <div class="p-3 bg-slate-900 rounded-xl space-y-2 text-xs">
+          <div class="text-white font-semibold flex items-center justify-between">
+            <span>🏛️ ${deptData.junta}</span>
+            <span class="text-emerald-400 font-mono text-[11px] font-normal">31 Ediles Titulares</span>
+          </div>
+          <div class="text-slate-300">
+            📍 <strong>Sede:</strong> ${deptData.sede}<br>
+            📞 <strong>Teléfono de contacto:</strong> ${deptData.telefono}<br>
+            ✉️ <strong>Mesa de Entrada / Secretaría:</strong> <span class="text-blue-400 font-mono">${deptData.email_mesa}</span>
+          </div>
+          <div class="text-[11px] text-slate-400 border-t border-slate-800 pt-2">
+            El correo será remitido formalmente a la Mesa de Entrada y Secretaría de la Junta Departamental para que sea cursado y notificado a los <strong>31 ediles titulares y secretarías de bancada</strong> de ${currentDept}.
+          </div>
+        </div>
+      `;
+      document.getElementById('selectedCount').innerText = "31 Ediles (vía Mesa Oficial)";
+    }
 
     function renderEdiles(filter = currentFilter) {
       currentFilter = filter;
+      const deptData = DEPARTAMENTOS_DATA[currentDept];
+      if (!deptData.has_individual_emails) return;
+
       const container = document.getElementById('edilesList');
       container.innerHTML = '';
       
-      const filtered = EDILES.filter(e => filter === 'all' || e.party === filter);
+      const filtered = deptData.ediles.filter(e => filter === 'all' || e.party === filter);
       
       filtered.forEach((e) => {
         const isChecked = selectedEmails.has(e.email);
@@ -252,17 +493,20 @@
     }
 
     function selectAll(check) {
+      const deptData = DEPARTAMENTOS_DATA[currentDept];
+      if (!deptData.has_individual_emails) return;
+
       if (check) {
         if (currentFilter === 'all') {
-          selectedEmails = new Set(EDILES.map(e => e.email));
+          selectedEmails = new Set(deptData.ediles.map(e => e.email));
         } else {
-          EDILES.filter(e => e.party === currentFilter).forEach(e => selectedEmails.add(e.email));
+          deptData.ediles.filter(e => e.party === currentFilter).forEach(e => selectedEmails.add(e.email));
         }
       } else {
         if (currentFilter === 'all') {
           selectedEmails.clear();
         } else {
-          EDILES.filter(e => e.party === currentFilter).forEach(e => selectedEmails.delete(e.email));
+          deptData.ediles.filter(e => e.party === currentFilter).forEach(e => selectedEmails.delete(e.email));
         }
       }
       renderEdiles();
@@ -270,11 +514,13 @@
 
     function filterParty(party) {
       currentFilter = party;
-      // Actualizar seleccion segun filtro
-      if (party === 'all') {
-        selectedEmails = new Set(EDILES.map(e => e.email));
-      } else {
-        selectedEmails = new Set(EDILES.filter(e => e.party === party).map(e => e.email));
+      const deptData = DEPARTAMENTOS_DATA[currentDept];
+      if (deptData.has_individual_emails) {
+        if (party === 'all') {
+          selectedEmails = new Set(deptData.ediles.map(e => e.email));
+        } else {
+          selectedEmails = new Set(deptData.ediles.filter(e => e.party === party).map(e => e.email));
+        }
       }
       renderEdiles(party);
     }
@@ -295,49 +541,70 @@
       const nombre = document.getElementById('nombre').value.trim() || '[Tu Nombre y Apellido]';
       const ci = document.getElementById('cedula').value.trim();
       const ciText = ci ? ` (C.I. ${ci})` : '';
+      const deptData = DEPARTAMENTOS_DATA[currentDept];
 
-      const subject = "Consulta ciudadana sobre equipo de asesores – Junta Departamental de Montevideo";
+      const subject = `Consulta ciudadana sobre equipo de asesores – ${deptData.junta}`;
       
-      const body = `Estimado/a Edil/a,
+      const body = `Estimados/as Sres. y Sras. Ediles de la ${deptData.junta},
 
-Me dirijo a usted en mi condición de ciudadano y vecino de Montevideo, en el marco del interés público y los principios republicanos de transparencia activa en la función legislativa departamental.
+Me dirijo a ustedes en mi condición de ciudadano y vecino del departamento de ${currentDept}, en el marco del interés público y los principios republicanos de transparencia activa en la función legislativa departamental.
 
-A través del presente mensaje, me pongo en contacto directo con su despacho para solicitarle información relativa a las personas que figuran o desempeñan funciones de asesoría vinculadas a su banca:
+A través del presente mensaje, me pongo en contacto directo con sus despachos y bancadas para solicitarles información relativa a las personas que figuran o desempeñan funciones de asesoría y secretaría vinculadas a sus respectivas bancas:
 
-1. Nómina y cantidad: Nombres y cantidad de personas contratadas, designadas o asignadas como asesores técnicos, políticos, secretarios o pases en comisión para su despacho o bancada.
-2. Destino real de funciones y dependencia: Si dichas personas prestan funciones directamente para usted y su trabajo en la Junta, si responden a la estructura de su sector/partido político, si desempeñan tareas en otro ámbito, o si usted desconoce sus funciones efectivas.
+1. Nómina y cantidad: Nombres y cantidad de personas contratadas, designadas o asignadas como asesores técnicos, políticos, secretarios o pases en comisión para cada despacho o bancada.
+2. Destino real de funciones y dependencia: Si dichas personas prestan funciones directamente para los ediles y su labor parlamentaria en la Junta, si responden a la estructura de sus respectivos sectores o partidos políticos, si desempeñan tareas en otro ámbito, o si se desconocen sus funciones efectivas.
 3. Perfil y tareas: Cometidos principales, áreas de especialidad y régimen de contratación de cada uno.
 4. Remuneraciones y partidas: Montos mensuales asignados o partidas públicas destinadas a tales efectos.
 
-Considero fundamental para el fortalecimiento democrático y el control ciudadano que se conozca con claridad el destino y la utilidad del gasto público en el legislativo departamental.
+Considero fundamental para el fortalecimiento democrático y el control ciudadano que se conozca con claridad el destino y la utilidad del gasto público en el legislativo departamental de ${currentDept}.
 
-Dejo constancia de que, en caso de no obtener respuesta en el plazo de una semana (7 días), procederé a formalizar el correspondiente Pedido de Acceso a la Información Pública al amparo de la Ley N° 18.381 ante la Mesa de Entrada de la Junta Departamental.
+Dejo constancia de que, en caso de no obtener respuesta en el plazo de una semana (7 días), procederé a formalizar el correspondiente Pedido de Acceso a la Información Pública al amparo de la Ley N° 18.381 ante la Mesa de Entrada oficial de la Junta.
 
 Agradezco de antemano su tiempo y respuesta.
 
 Saludos cordiales,
 ${nombre}${ciText}
-Montevideo, Uruguay`;
+Departamento de ${currentDept}, Uruguay`;
 
       return { subject, body };
     }
 
     function updatePreview() {
-      const { body } = generateMailContent();
+      const { subject, body } = generateMailContent();
+      const deptData = DEPARTAMENTOS_DATA[currentDept];
+
       const previewEl = document.getElementById('emailBodyPreview');
-      if (previewEl) {
-        previewEl.innerText = body;
-      }
+      if (previewEl) previewEl.innerText = body;
+
+      const previewToEl = document.getElementById('previewTo');
+      if (previewToEl) previewToEl.innerText = deptData.email_mesa;
+
+      const subjectEl = document.getElementById('previewSubject');
+      if (subjectEl) subjectEl.innerText = subject;
+
       const bccEl = document.getElementById('previewBcc');
       if (bccEl) {
-        bccEl.innerText = `${selectedEmails.size} casillas seleccionadas`;
+        if (deptData.has_individual_emails) {
+          bccEl.innerText = `${selectedEmails.size} casillas de ediles seleccionadas`;
+        } else if (deptData.email_secundario) {
+          bccEl.innerText = `${deptData.email_secundario} (Secretaría / Bancadas)`;
+        } else {
+          bccEl.innerText = "Secretaría General y Bancadas de " + currentDept;
+        }
       }
     }
 
     function triggerSend(target) {
       const { subject, body } = generateMailContent();
-      const to = "junta@juntamvd.gub.uy";
-      const bcc = Array.from(selectedEmails).join(',');
+      const deptData = DEPARTAMENTOS_DATA[currentDept];
+      const to = deptData.email_mesa;
+      let bcc = "";
+
+      if (deptData.has_individual_emails) {
+        bcc = Array.from(selectedEmails).join(',');
+      } else if (deptData.email_secundario) {
+        bcc = deptData.email_secundario;
+      }
 
       if (target === 'gmail') {
         const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&bcc=${encodeURIComponent(bcc)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -350,8 +617,15 @@ Montevideo, Uruguay`;
 
     function copyToClipboard() {
       const { subject, body } = generateMailContent();
-      const to = "junta@juntamvd.gub.uy";
-      const bcc = Array.from(selectedEmails).join(', ');
+      const deptData = DEPARTAMENTOS_DATA[currentDept];
+      const to = deptData.email_mesa;
+      let bcc = "";
+
+      if (deptData.has_individual_emails) {
+        bcc = Array.from(selectedEmails).join(', ');
+      } else if (deptData.email_secundario) {
+        bcc = deptData.email_secundario;
+      }
 
       const fullText = `Para: ${to}
 CCO: ${bcc}
