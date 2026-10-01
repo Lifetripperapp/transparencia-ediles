@@ -36,9 +36,6 @@ const FILTER_IDLE = {
   CA: "px-3 py-1.5 rounded-lg text-sm bg-slate-800 hover:bg-slate-700 font-medium text-amber-200 border border-amber-900/50"
 };
 
-const MAILTO_LIMIT = 1900;
-const GMAIL_LIMIT = 7500;
-
 const DEPARTAMENTOS_DATA = {
   "Montevideo": {
     junta: "Junta Departamental de Montevideo",
@@ -717,14 +714,18 @@ function recipientBlock() {
   return `Para: ${para}\nCC: ${copia}`;
 }
 
-function mailtoUrl() {
+function mailtoUrl(includeBody = true) {
   const { subject, body } = generateMailContent();
   const { to, cc } = delivery();
   const params = [];
   if (cc.length) params.push(`cc=${encodeURIComponent(cc.join(","))}`);
   params.push(`subject=${encodeURIComponent(subject)}`);
-  params.push(`body=${encodeURIComponent(body)}`);
+  if (includeBody) params.push(`body=${encodeURIComponent(body)}`);
   return `mailto:${to}?${params.join("&")}`;
+}
+
+function openMailApp(url) {
+  window.location.href = url;
 }
 
 function gmailUrl() {
@@ -745,19 +746,20 @@ function updatePreview() {
   const sendEnabled = canSend();
   document.getElementById("btnSendMail").disabled = !sendEnabled;
   document.getElementById("btnSendGmail").disabled = !sendEnabled;
+  document.getElementById("btnSendShort").disabled = !sendEnabled;
   document.getElementById("btnCopyRecipients").disabled = !to && cc.length === 0;
   document.getElementById("btnCopySubject").disabled = false;
   document.getElementById("btnCopyAll").disabled = !to && cc.length === 0;
 
   const hint = document.getElementById("mailtoHint");
+  hint.textContent = sendEnabled
+    ? ""
+    : "Elegí al menos una casilla, o un departamento con correo institucional verificado, para abrir el borrador.";
   if (!sendEnabled) {
-    hint.textContent = "Elegí al menos una casilla, o un departamento con correo institucional verificado, para abrir el borrador.";
-    return;
+    const status = document.getElementById("shortMailStatus");
+    status.textContent = "";
+    status.classList.add("hidden");
   }
-  const mailLength = mailtoUrl().length;
-  hint.textContent = mailLength <= MAILTO_LIMIT
-    ? `El enlace de la app de correo mide ${mailLength} caracteres.`
-    : `El enlace de la app de correo mide ${mailLength} caracteres y se pasa de ~2000. En ese caso el botón copia el texto completo, igual al de la vista previa. Gmail sigue disponible si el enlace entra.`;
 }
 
 function showToast(message) {
@@ -768,36 +770,81 @@ function showToast(message) {
   copyToastTimer = window.setTimeout(() => toast.classList.add("hidden"), 4000);
 }
 
+function copyWithExec(text) {
+  const area = document.createElement("textarea");
+  area.value = text;
+  area.setAttribute("aria-hidden", "true");
+  area.style.position = "fixed";
+  area.style.top = "0";
+  area.style.left = "0";
+  area.style.width = "2em";
+  area.style.height = "2em";
+  area.style.padding = "0";
+  area.style.border = "none";
+  area.style.outline = "none";
+  area.style.fontSize = "16px";
+  document.body.appendChild(area);
+  area.focus();
+  area.select();
+  try {
+    area.setSelectionRange(0, text.length);
+  } catch (error) {
+    /* algunos navegadores móviles no exponen setSelectionRange */
+  }
+  let ok = false;
+  try {
+    ok = document.execCommand("copy");
+  } catch (error) {
+    ok = false;
+  }
+  document.body.removeChild(area);
+  return ok;
+}
+
 function copyText(text, successMessage) {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
+  const report = (ok) => showToast(ok ? successMessage : "No se pudo copiar. Revisá el permiso del navegador.");
+  const syncOk = copyWithExec(text);
+  if (navigator.clipboard && window.isSecureContext && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(
-      () => showToast(successMessage),
-      () => showToast("No se pudo copiar. Revisá el permiso del navegador.")
+      () => report(true),
+      () => report(syncOk)
     );
     return;
   }
-  showToast("No se pudo copiar. Revisá el permiso del navegador.");
+  report(syncOk);
 }
 
 function triggerSend(target) {
   if (!canSend()) return;
   trackEvent(target === "gmail" ? "send_gmail_click" : "send_mail_click", { department: currentDept });
-  const { subject, body } = generateMailContent();
   if (target === "gmail") {
-    const url = gmailUrl();
-    if (url.length > GMAIL_LIMIT) {
-      copyText(`${recipientBlock()}\nAsunto: ${subject}\n\n${body}`, "El enlace de Gmail es demasiado largo. Copiamos el correo completo.");
-      return;
-    }
-    window.open(url, "_blank", "noopener");
+    window.open(gmailUrl(), "_blank", "noopener");
     return;
   }
-  const url = mailtoUrl();
-  if (url.length > MAILTO_LIMIT) {
-    copyText(`${recipientBlock()}\nAsunto: ${subject}\n\n${body}`, "El enlace mailto supera ~2000 caracteres. Copiamos Para, CC, asunto y texto.");
-    return;
+  openMailApp(mailtoUrl(true));
+}
+
+function openShortMailto() {
+  if (!canSend()) return;
+  trackEvent("send_short_click", { department: currentDept });
+  const { body } = generateMailContent();
+  const status = document.getElementById("shortMailStatus");
+  const syncOk = copyWithExec(body);
+  if (navigator.clipboard && window.isSecureContext && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(body).then(
+      () => {
+        status.textContent = "Texto copiado: pegalo en el cuerpo del correo";
+      },
+      () => {
+        if (!syncOk) status.textContent = "No se pudo copiar el texto. Igual abrimos el correo, sin el cuerpo.";
+      }
+    );
   }
-  window.location.href = url;
+  status.textContent = syncOk
+    ? "Texto copiado: pegalo en el cuerpo del correo"
+    : "No se pudo copiar el texto. Igual abrimos el correo, sin el cuerpo.";
+  status.classList.remove("hidden");
+  openMailApp(mailtoUrl(false));
 }
 
 function copyRecipients() {
@@ -820,6 +867,7 @@ document.getElementById("cedula").addEventListener("input", updatePreview);
 document.getElementById("btnSelectAll").addEventListener("click", () => selectAll(true));
 document.getElementById("btnDeselectAll").addEventListener("click", () => selectAll(false));
 document.getElementById("btnSendMail").addEventListener("click", () => triggerSend("mail"));
+document.getElementById("btnSendShort").addEventListener("click", openShortMailto);
 document.getElementById("btnSendGmail").addEventListener("click", () => triggerSend("gmail"));
 document.getElementById("btnCopyRecipients").addEventListener("click", copyRecipients);
 document.getElementById("btnCopySubject").addEventListener("click", copySubject);
