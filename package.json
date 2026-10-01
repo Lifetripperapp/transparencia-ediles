@@ -2,7 +2,8 @@
   "name": "transparencia-ediles",
   "private": true,
   "scripts": {
-    "build:css": "tailwindcss -i src/input.css -o assets/styles.css --minify"
+    "build:css": "tailwindcss -i src/input.css -o assets/styles.css --minify",
+    "check:organigrama": "node scripts/check-organigrama.mjs"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.17"

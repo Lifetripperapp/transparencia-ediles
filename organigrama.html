@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organigrama — Junta Departamental de Montevideo</title>
+  <meta name="description" content="Organigrama interactivo de la Junta Departamental de Montevideo: Mesa, Secretaría, bancadas, listas, ediles y equipos, con la fuente de cada dato público.">
+  <link rel="canonical" href="https://transparencia-ediles.vercel.app/organigrama.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_UY">
+  <meta property="og:site_name" content="Transparencia Ediles Montevideo">
+  <meta property="og:title" content="Organigrama — Junta Departamental de Montevideo">
+  <meta property="og:description" content="Grafo desplegable de la Junta Departamental de Montevideo, con cargos, sueldos nominales y fuentes.">
+  <meta property="og:url" content="https://transparencia-ediles.vercel.app/organigrama.html">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.png" type="image/png" sizes="32x32">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="organigrama.css">
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="top-bar">
+      <a class="brand" href="./">Transparencia Ediles</a>
+      <nav aria-label="Secciones">
+        <a href="./">Consulta</a>
+        <a href="organigrama.html" aria-current="page">Organigrama</a>
+      </nav>
+    </div>
+    <div class="title-row">
+      <div>
+        <h1 id="tituloOrganigrama">Organigrama de la Junta de Montevideo</h1>
+        <p class="lede">Legislatura 2025-2030. Tocá un nodo para abrirlo y volvé a tocarlo para plegarlo. Podés mover el mapa y cambiar el zoom.</p>
+      </div>
+      <label class="departamento" for="departamento">Departamento
+        <select id="departamento">
+          <option value="montevideo" data-archivo="data/montevideo.json" selected>Montevideo</option>
+          <option value="canelones" disabled>Canelones (sin datos publicados)</option>
+          <option value="maldonado" disabled>Maldonado (sin datos publicados)</option>
+          <option value="colonia" disabled>Colonia (sin datos publicados)</option>
+          <option value="salto" disabled>Salto (sin datos publicados)</option>
+          <option value="paysandu" disabled>Paysandú (sin datos publicados)</option>
+          <option value="san-jose" disabled>San José (sin datos publicados)</option>
+          <option value="florida" disabled>Florida (sin datos publicados)</option>
+          <option value="rio-negro" disabled>Río Negro (sin datos publicados)</option>
+          <option value="rocha" disabled>Rocha (sin datos publicados)</option>
+          <option value="soriano" disabled>Soriano (sin datos publicados)</option>
+          <option value="tacuarembo" disabled>Tacuarembó (sin datos publicados)</option>
+          <option value="rivera" disabled>Rivera (sin datos publicados)</option>
+          <option value="cerro-largo" disabled>Cerro Largo (sin datos publicados)</option>
+          <option value="durazno" disabled>Durazno (sin datos publicados)</option>
+          <option value="lavalleja" disabled>Lavalleja (sin datos publicados)</option>
+          <option value="treinta-y-tres" disabled>Treinta y Tres (sin datos publicados)</option>
+          <option value="artigas" disabled>Artigas (sin datos publicados)</option>
+          <option value="flores" disabled>Flores (sin datos publicados)</option>
+        </select>
+      </label>
+    </div>
+    <div class="tools">
+      <div class="buscar">
+        <label for="busqueda">Buscar persona</label>
+        <input id="busqueda" type="search" placeholder="Nombre y apellido" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="resultados" aria-autocomplete="list">
+        <ul id="resultados" role="listbox" hidden></ul>
+      </div>
+      <div class="acciones">
+        <button type="button" id="colapsar">Plegar todo</button>
+        <button type="button" id="centrar">Centrar</button>
+      </div>
+    </div>
+    <p class="nota-fa" id="notaFa"></p>
+    <p class="nota-tamano" id="notaTamano"></p>
+    <ul class="leyenda" aria-label="Referencias">
+      <li><span class="swatch fa"></span> Frente Amplio</li>
+      <li><span class="swatch pn"></span> Partido Nacional</li>
+      <li><span class="swatch pc"></span> Partido Colorado</li>
+      <li><span class="swatch cr"></span> Coalición Republicana</li>
+      <li><span class="swatch inst"></span> Junta, Mesa y Secretaría</li>
+      <li><span class="swatch dashed"></span> Sin datos de equipo</li>
+      <li><span class="swatch com"></span> Funcionario en comisión</li>
+    </ul>
+    <p class="estado" id="estado" role="status" hidden></p>
+  </header>
+
+  <div class="workspace">
+    <div class="stage">
+      <div id="cy" role="img" aria-label="Grafo del organigrama. La vista en lista, más abajo, tiene los mismos datos en texto."></div>
+      <div class="zoom">
+        <button type="button" id="zoomIn" aria-label="Acercar">+</button>
+        <button type="button" id="zoomOut" aria-label="Alejar">−</button>
+      </div>
+    </div>
+    <aside class="ficha" id="ficha" aria-live="polite">
+      <div class="sheet-handle" id="sheetHandle" role="presentation"></div>
+      <button type="button" id="cerrarFicha">Cerrar</button>
+      <div id="fichaContenido"></div>
+    </aside>
+  </div>
+  <div class="velo" id="velo" hidden></div>
+
+  <details class="lista-texto">
+    <summary>Vista en lista</summary>
+    <div id="listaTexto"></div>
+  </details>
+
+  <details class="notas pie">
+    <summary>Notas sobre los datos</summary>
+    <ul id="advertencias"></ul>
+  </details>
+
+  <footer class="pie">
+    <p>Solo datos públicos: nombres, cargos, sueldos nominales, correos y teléfonos institucionales, y perfiles públicos. No se publican cédulas, domicilios personales ni teléfonos particulares.</p>
+    <p><a href="./">Volver a la consulta ciudadana</a> · Código en <a href="https://github.com/Lifetripperapp/transparencia-ediles">GitHub</a>.</p>
+  </footer>
+
+  <script src="vendor/cytoscape.min.js"></script>
+  <script src="organigrama.js"></script>
+</body>
+</html>
