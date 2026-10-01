@@ -121,9 +121,17 @@ const DEPARTAMENTOS_DATA = {
   "Maldonado": {
     junta: "Junta Departamental de Maldonado",
     sede: "18 de Julio 547 y Manuel Ledesma, Maldonado",
-    telefono: "4222 3530",
+    telefono: "4222 3530 (fax 4222 8468)",
     email: "junta@juntamaldonado.gub.uy",
-    rosterNote: "Nómina de titulares: sin verificar. El sitio la publica como imágenes, no como texto. Se usan las tres casillas de bancada.",
+    rosterNote: "Nómina de titulares: sin verificar. El sitio la publica como imágenes, no como texto. No hay casillas individuales de ediles en la página de contactos.",
+    oficinas: [
+      { name: "Secretaría Política", email: "secpolitica@juntamaldonado.gub.uy", interno: "108" },
+      { name: "Secretaria General", email: "secretariageneral@juntamaldonado.gub.uy", interno: "122" },
+      { name: "Área de Secretaría", email: "presidencia@juntamaldonado.gub.uy", interno: "110", recipient: true },
+      { name: "Prosecretaría General Administrativa", email: "dadministrativa@juntamaldonado.gub.uy", interno: "173" },
+      { name: "Prosecretaría General Legislativa", email: "dlegislativa@juntamaldonado.gub.uy", interno: "109" },
+      { name: "Comisiones", email: "comisiones@juntamaldonado.gub.uy", interno: "153" }
+    ],
     bancadas: [
       { name: "Bancada Partido Nacional", party: "PN", email: "pnacional@juntamaldonado.gub.uy" },
       { name: "Bancada Frente Amplio", party: "FA", email: "fa@juntamaldonado.gub.uy" },
@@ -428,6 +436,14 @@ function bancadasOf(dept) {
   return dept.bancadas || [];
 }
 
+function oficinasOf(dept) {
+  return dept.oficinas || [];
+}
+
+function recipientOficinas(dept) {
+  return oficinasOf(dept).filter((oficina) => oficina.recipient && oficina.email);
+}
+
 function partiesIn(dept) {
   const found = [];
   [...edilesOf(dept), ...bancadasOf(dept)].forEach((item) => {
@@ -445,6 +461,10 @@ function rowsFor(dept, filter) {
   bancadasOf(dept).forEach((bancada) => {
     if (filter !== "all" && bancada.party !== filter) return;
     rows.push({ kind: "bancada", ...bancada });
+  });
+  recipientOficinas(dept).forEach((oficina) => {
+    if (filter !== "all" && oficina.party !== filter) return;
+    rows.push({ kind: "oficina", name: oficina.name, party: oficina.party, email: oficina.email });
   });
   return rows;
 }
@@ -515,6 +535,20 @@ function renderDepartment() {
     note.textContent = dept.rosterNote;
     strip.appendChild(note);
   }
+  if (oficinasOf(dept).length) {
+    const heading = document.createElement("p");
+    heading.className = "mt-2 font-medium text-slate-100";
+    heading.textContent = "Secretarías y áreas publicadas";
+    strip.appendChild(heading);
+    oficinasOf(dept).forEach((oficina) => {
+      const row = document.createElement("div");
+      row.className = "break-all";
+      const bits = [oficina.name, oficina.email];
+      if (oficina.interno) bits.push(`interno ${oficina.interno}`);
+      row.textContent = bits.join(" · ");
+      strip.appendChild(row);
+    });
+  }
 
   const hasSelectable = selectableEmails(dept).length > 0;
   document.getElementById("selectionButtonsWrap").classList.toggle("hidden", !hasSelectable);
@@ -542,8 +576,8 @@ function renderFilters(dept) {
     button.type = "button";
     button.id = `filterBtn-${party}`;
     const count = party === "all"
-      ? edilesOf(dept).length + bancadasOf(dept).length
-      : [...edilesOf(dept), ...bancadasOf(dept)].filter((item) => item.party === party).length;
+      ? edilesOf(dept).length + bancadasOf(dept).length + recipientOficinas(dept).length
+      : [...edilesOf(dept), ...bancadasOf(dept), ...recipientOficinas(dept)].filter((item) => item.party === party).length;
     button.textContent = party === "all" ? `Todos (${count})` : `${PARTY_LABEL[party]} (${count})`;
     const active = party === currentFilter;
     button.className = active ? FILTER_ACTIVE[party] : FILTER_IDLE[party];
@@ -658,7 +692,7 @@ function generateMailContent() {
   const firma = nombre ? `${nombre}${ci ? ` (C.I. ${ci})` : ""}` : "";
   const canal = currentDept === "Montevideo"
     ? "En Montevideo este mensaje va a la Mesa de Entrada y a las casillas de despacho marcadas."
-    : "Este mensaje va a la casilla institucional verificada y, si las hay, a las casillas de edil o de bancada publicadas por la Junta.";
+    : "Este mensaje va a la casilla institucional verificada y, si las hay, a las casillas publicadas que estén marcadas.";
   const body = `Estimados/as ediles de la ${dept.junta}:
 
 Soy ciudadano/a de ${currentDept}. ${canal}
