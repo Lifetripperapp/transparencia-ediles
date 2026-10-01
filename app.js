@@ -50,7 +50,13 @@ const DEPARTAMENTOS_DATA = {
     email_mesa: "secretaria@juntadecanelones.gub.uy",
     email_secundario: "contacto@juntadecanelones.gub.uy",
     has_individual_emails: false,
-    total_ediles: 31
+    ediles_names: [
+      "Daniel Pereira (FA)", "César Lista (FA)", "María José Martínez (FA)", "Juan Ripoll (FA)", 
+      "Florencia Bielli (FA)", "Mariela Alamilla (FA)", "Manuel De León (FA)", "Marlene Argañaras (FA)", 
+      "Joaquín Cambón (FA)", "Adrián Arriola (FA)", "Roberto Saravia (FA)", "Carmen Valdeolivas (FA)", 
+      "Mónica Bueno (FA)", "Wilfredo Román (FA)", "Lucy Garderes (FA)", "Nicolás Portos (FA)",
+      "Ediles de Bancada Frente Amplio (20)", "Ediles de Bancada Partido Nacional (10)", "Ediles de Bancada Partido Colorado (1)"
+    ]
   },
   "Maldonado": {
     junta: "Junta Departamental de Maldonado",
@@ -59,7 +65,26 @@ const DEPARTAMENTOS_DATA = {
     email_mesa: "mesadeentrada@juntamaldonado.gub.uy",
     email_secundario: "junta@juntamaldonado.gub.uy",
     has_individual_emails: false,
-    total_ediles: 31
+    ediles_names: [
+      "Francisco Salazar (PN)", "Ronald Martínez (PN)", "Hernán Ciganda (PN)", "Luis Artola (PN)", 
+      "Fernando Perdomo (PN)", "Susana Robaina (PN)", "José Martín Hualde (PN)", "Carlos Stajano (PN)", 
+      "Alexandro Infante (PN)", "Darwin Correa (PN)", "Javier Sena (PN)", "Christian Estela (PN)",
+      "Joaquín Garlo (FA)", "Leonardo Delgado (FA)", "Jorge Pieri (FA)", "Fermín de los Santos (FA)",
+      "Ediles de Bancada Partido Nacional (21)", "Ediles de Bancada Frente Amplio (9)", "Ediles de Bancada Partido Colorado (1)"
+    ]
+  },
+  "Rocha": {
+    junta: "Junta Departamental de Rocha",
+    sede: "Gral. Artigas 140, Rocha",
+    telefono: "(+598) 4472 2012",
+    email_mesa: "secretaria@juntarocha.gub.uy",
+    has_individual_emails: false,
+    ediles_names: [
+      "Leonardo Abreu", "Martina Acosta", "Mauro Amorín", "Cecilia Berni", "Joel Cedrés", 
+      "Joaquín de los Santos", "Maximiliano Ferreira", "Daniel Fontes", "Daniel Introini", 
+      "Rafael Iza", "Cosme Molina", "Juan Manuel Olivera", "Alejandra Piñeiro", "Karina Terra",
+      "Ediles de Bancada Partido Nacional (16)", "Ediles de Bancada Frente Amplio (14)", "Ediles de Bancada Partido Colorado (1)"
+    ]
   },
   "Colonia": {
     junta: "Junta Departamental de Colonia",
@@ -106,14 +131,6 @@ const DEPARTAMENTOS_DATA = {
     sede: "25 de Mayo 3169, Fray Bentos",
     telefono: "(+598) 4562 2012",
     email_mesa: "junta@juntarionegro.gub.uy",
-    has_individual_emails: false,
-    total_ediles: 31
-  },
-  "Rocha": {
-    junta: "Junta Departamental de Rocha",
-    sede: "Gral. Artigas 140, Rocha",
-    telefono: "(+598) 4472 2012",
-    email_mesa: "secretaria@juntarocha.gub.uy",
     has_individual_emails: false,
     total_ediles: 31
   },
@@ -243,17 +260,30 @@ function changeDepartment() {
 
 function renderDepartmentInfo(deptData) {
   const container = document.getElementById("edilesList");
+  let rosterHtml = "";
+  if (deptData.ediles_names && deptData.ediles_names.length > 0) {
+    rosterHtml = `
+      <div class="mt-2 border-t border-slate-800/80 pt-2">
+        <strong class="text-slate-300 block mb-1">Nómina representativa de Ediles:</strong>
+        <div class="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto pr-1">
+          ${deptData.ediles_names.map(name => `<span class="px-2 py-0.5 bg-slate-950 border border-slate-800 rounded text-[11px] text-slate-300">${name}</span>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+
   container.innerHTML = `
     <div class="p-3 bg-slate-900 rounded-xl space-y-2 text-xs">
       <div class="text-white font-semibold flex items-center justify-between">
         <span>🏛️ ${deptData.junta}</span>
         <span class="text-emerald-400 font-mono text-[11px] font-normal">31 Ediles Titulares</span>
       </div>
-      <div class="text-slate-300">
+      <div class="text-slate-300 leading-relaxed">
         📍 <strong>Sede:</strong> ${deptData.sede}<br>
         📞 <strong>Teléfono de contacto:</strong> ${deptData.telefono}<br>
         ✉️ <strong>Mesa de Entrada / Secretaría:</strong> <span class="text-blue-400 font-mono">${deptData.email_mesa}</span>
       </div>
+      ${rosterHtml}
       <div class="text-[11px] text-slate-400 border-t border-slate-800 pt-2">
         El correo será remitido formalmente a la Mesa de Entrada y Secretaría de la Junta Departamental para que sea cursado y notificado a los <strong>31 ediles titulares y secretarías de bancada</strong> de ${currentDept}.
       </div>
