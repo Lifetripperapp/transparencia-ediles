@@ -10,6 +10,10 @@
   <style>
     body { font-family: 'Inter', sans-serif; }
   </style>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen py-8 px-4 sm:px-6 antialiased selection:bg-blue-600 selection:text-white">
   <div class="max-w-3xl mx-auto space-y-6 sm:space-y-8">
@@ -335,6 +339,9 @@ Montevideo, Uruguay`;
     }
 
     function triggerSend(target) {
+      if (typeof window.va === 'function') {
+        window.va('event', { name: 'send_click' });
+      }
       const { subject, body } = generateMailContent();
       const to = "junta@juntamvd.gub.uy";
       const bcc = Array.from(selectedEmails).join(',');
