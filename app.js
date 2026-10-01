@@ -2,13 +2,49 @@ window.va = window.va || function () {
   (window.vaq = window.vaq || []).push(arguments);
 };
 
+const PARTY_LABEL = {
+  FA: "Frente Amplio",
+  PN: "Partido Nacional",
+  PC: "Partido Colorado",
+  CR: "Coalición Republicana",
+  CA: "Cabildo Abierto"
+};
+
+const PARTY_BADGE = {
+  FA: "text-sm px-1.5 py-0.5 rounded font-semibold bg-red-950/80 text-red-300 border border-red-800 shrink-0",
+  PN: "text-sm px-1.5 py-0.5 rounded font-semibold bg-sky-950/80 text-sky-300 border border-sky-800 shrink-0",
+  PC: "text-sm px-1.5 py-0.5 rounded font-semibold bg-rose-950/80 text-rose-200 border border-rose-800 shrink-0",
+  CR: "text-sm px-1.5 py-0.5 rounded font-semibold bg-sky-950/80 text-sky-300 border border-sky-800 shrink-0",
+  CA: "text-sm px-1.5 py-0.5 rounded font-semibold bg-amber-950/80 text-amber-200 border border-amber-800 shrink-0"
+};
+
+const FILTER_ACTIVE = {
+  all: "px-3 py-1.5 rounded-lg text-sm text-white font-medium bg-blue-600",
+  FA: "px-3 py-1.5 rounded-lg text-sm font-medium bg-red-800 text-red-100",
+  PN: "px-3 py-1.5 rounded-lg text-sm font-medium bg-sky-700 text-sky-100",
+  PC: "px-3 py-1.5 rounded-lg text-sm font-medium bg-rose-800 text-rose-100",
+  CR: "px-3 py-1.5 rounded-lg text-sm font-medium bg-sky-700 text-sky-100",
+  CA: "px-3 py-1.5 rounded-lg text-sm font-medium bg-amber-700 text-amber-50"
+};
+
+const FILTER_IDLE = {
+  all: "px-3 py-1.5 rounded-lg text-sm bg-slate-800 hover:bg-slate-700 font-medium text-slate-200",
+  FA: "px-3 py-1.5 rounded-lg text-sm bg-slate-800 hover:bg-slate-700 font-medium text-red-300 border border-red-900/50",
+  PN: "px-3 py-1.5 rounded-lg text-sm bg-slate-800 hover:bg-slate-700 font-medium text-sky-300 border border-sky-900/50",
+  PC: "px-3 py-1.5 rounded-lg text-sm bg-slate-800 hover:bg-slate-700 font-medium text-rose-200 border border-rose-900/50",
+  CR: "px-3 py-1.5 rounded-lg text-sm bg-slate-800 hover:bg-slate-700 font-medium text-sky-300 border border-sky-900/50",
+  CA: "px-3 py-1.5 rounded-lg text-sm bg-slate-800 hover:bg-slate-700 font-medium text-amber-200 border border-amber-900/50"
+};
+
+const MAILTO_LIMIT = 1900;
+const GMAIL_LIMIT = 7500;
+
 const DEPARTAMENTOS_DATA = {
   "Montevideo": {
     junta: "Junta Departamental de Montevideo",
     sede: "25 de Mayo 629, Montevideo",
     telefono: "(+598) 2915 2126",
-    email_mesa: "junta@juntamvd.gub.uy",
-    has_individual_emails: true,
+    email: "junta@juntamvd.gub.uy",
     ediles: [
       { name: "Juan Ignacio Abdala", email: "iabdala@juntamvd.gub.uy", party: "CR" },
       { name: "Fernanda Araujo", email: "maraujo@juntamvd.gub.uy", party: "CR" },
@@ -45,375 +81,569 @@ const DEPARTAMENTOS_DATA = {
   },
   "Canelones": {
     junta: "Junta Departamental de Canelones",
-    sede: "Luis Alberto de Herrera 283, Canelones",
-    telefono: "(+598) 4332 2011 / 4332 2420",
-    email_mesa: "secretaria@juntadecanelones.gub.uy",
-    email_secundario: "contacto@juntadecanelones.gub.uy",
-    has_individual_emails: false,
-    ediles_names: [
-      "Daniel Pereira (FA)", "César Lista (FA)", "María José Martínez (FA)", "Juan Ripoll (FA)", 
-      "Florencia Bielli (FA)", "Mariela Alamilla (FA)", "Manuel De León (FA)", "Marlene Argañaras (FA)", 
-      "Joaquín Cambón (FA)", "Adrián Arriola (FA)", "Roberto Saravia (FA)", "Carmen Valdeolivas (FA)", 
-      "Mónica Bueno (FA)", "Wilfredo Román (FA)", "Lucy Garderes (FA)", "Nicolás Portos (FA)",
-      "Ediles de Bancada Frente Amplio (20)", "Ediles de Bancada Partido Nacional (10)", "Ediles de Bancada Partido Colorado (1)"
+    sede: "Artigas 271, entre L.A. de Herrera y F. Sánchez, Canelones",
+    telefono: "4332 2420",
+    email: "contacto@juntadecanelones.gub.uy",
+    ediles: [
+      { name: "Daniel Pereira", party: "FA", email: "edil.danielpereira@juntadecanelones.gub.uy" },
+      { name: "Nathali Muniz", party: "FA", email: "edila.nathalimuniz@juntadecanelones.gub.uy" },
+      { name: "César Lista", party: "FA", email: "edil.cesarlista@juntadecanelones.gub.uy" },
+      { name: "María José Martínez", party: "FA", email: "edila.mariajosemartinez@juntadecanelones.gub.uy" },
+      { name: "Juan Ripoll", party: "FA", email: "edil.juanripoll@juntadecanelones.gub.uy" },
+      { name: "Florencia Bielli", party: "FA", email: "edila.florenciabielli@juntadecanelones.gub.uy" },
+      { name: "Mariela Alamilla", party: "FA", email: "edila.marielaalamilla@juntadecanelones.gub.uy" },
+      { name: "María del Rosario Larrea", party: "FA", email: "edila.rosariolarrea@juntadecanelones.gub.uy" },
+      { name: "Loredana Morando", party: "FA", email: "edila.loredanamorando@juntadecanelones.gub.uy" },
+      { name: "Javier Heredia", party: "FA", email: "edil.javierheredia@juntadecanelones.gub.uy" },
+      { name: "Roberto Vázquez", party: "FA", email: "edil.robertovazquez@juntadecanelones.gub.uy" },
+      { name: "Marisol D´Albora", party: "FA", email: "edila.marisoldalbora@juntadecanelones.gub.uy" },
+      { name: "Liber Moreno", party: "FA", email: "edil.libermoreno@juntadecanelones.gub.uy" },
+      { name: "Víctor Rossi", party: "FA", email: "edil.victorrossi@juntadecanelones.gub.uy" },
+      { name: "Silvia Núñez", party: "FA", email: "edila.silvianunez@juntadecanelones.gub.uy" },
+      { name: "Manuel De León", party: "FA", email: "edil.manueldeleon@juntadecanelones.gub.uy" },
+      { name: "Katherin Martínez", party: "FA", email: "edila.katherinmartinez@juntadecanelones.gub.uy" },
+      { name: "Leonardo Borges", party: "FA", email: "edil.leonardoborges@juntadecanelones.gub.uy" },
+      { name: "Richard Pérez", party: "PN", email: "edil.richardperez@juntadecanelones.gub.uy" },
+      { name: "Juan Andrés Marteluna", party: "PN", email: "edil.juanmarteluna@juntadecanelones.gub.uy" },
+      { name: "Marcelo Tamborini", party: "PN", email: "edil.marcelotamborini@juntadecanelones.gub.uy" },
+      { name: "Beatriz Lamas", party: "PN", email: "edila.beatrizlamas@juntadecanelones.gub.uy" },
+      { name: "Agustín Oliver", party: "PN", email: "edil.agustinoliver@juntadecanelones.gub.uy" },
+      { name: "Alejandro Repetto", party: "PN", email: "edil.alejandrorepetto@juntadecanelones.gub.uy" },
+      { name: "Betiana Britos", party: "PN", email: "edila.betianabritos@juntadecanelones.gub.uy" },
+      { name: "Raúl Detomasi", party: "PN", email: "edil.rauldetomasi@juntadecanelones.gub.uy" },
+      { name: "Gustavo Morandi", party: "PN", email: "edil.gustavomorandi@juntadecanelones.gub.uy" },
+      { name: "Emiliano Quintero", party: "PN", email: "edil.emilianoquintero@juntadecanelones.gub.uy" },
+      { name: "Fernando Melgar", party: "PC", email: "edil.fernandomelgar@juntadecanelones.gub.uy" },
+      { name: "Noemí Pulitano", party: "PC", email: "edila.noemipulitano@juntadecanelones.gub.uy" },
+      { name: "Jerónimo Costa", party: "PC", email: "edil.jeronimocosta@juntadecanelones.gub.uy" }
     ]
   },
   "Maldonado": {
     junta: "Junta Departamental de Maldonado",
-    sede: "18 de Julio 543, Maldonado",
-    telefono: "(+598) 4222 3680 / 4222 3530",
-    email_mesa: "mesadeentrada@juntamaldonado.gub.uy",
-    email_secundario: "junta@juntamaldonado.gub.uy",
-    has_individual_emails: false,
-    ediles_names: [
-      "Francisco Salazar (PN)", "Ronald Martínez (PN)", "Hernán Ciganda (PN)", "Luis Artola (PN)", 
-      "Fernando Perdomo (PN)", "Susana Robaina (PN)", "José Martín Hualde (PN)", "Carlos Stajano (PN)", 
-      "Alexandro Infante (PN)", "Darwin Correa (PN)", "Javier Sena (PN)", "Christian Estela (PN)",
-      "Joaquín Garlo (FA)", "Leonardo Delgado (FA)", "Jorge Pieri (FA)", "Fermín de los Santos (FA)",
-      "Ediles de Bancada Partido Nacional (21)", "Ediles de Bancada Frente Amplio (9)", "Ediles de Bancada Partido Colorado (1)"
-    ]
-  },
-  "Rocha": {
-    junta: "Junta Departamental de Rocha",
-    sede: "Gral. Artigas 140, Rocha",
-    telefono: "(+598) 4472 2012",
-    email_mesa: "secretaria@juntarocha.gub.uy",
-    has_individual_emails: false,
-    ediles_names: [
-      "Leonardo Abreu", "Martina Acosta", "Mauro Amorín", "Cecilia Berni", "Joel Cedrés", 
-      "Joaquín de los Santos", "Maximiliano Ferreira", "Daniel Fontes", "Daniel Introini", 
-      "Rafael Iza", "Cosme Molina", "Juan Manuel Olivera", "Alejandra Piñeiro", "Karina Terra",
-      "Ediles de Bancada Partido Nacional (16)", "Ediles de Bancada Frente Amplio (14)", "Ediles de Bancada Partido Colorado (1)"
+    sede: "18 de Julio 547 y Manuel Ledesma, Maldonado",
+    telefono: "4222 3530",
+    email: "junta@juntamaldonado.gub.uy",
+    rosterNote: "Nómina de titulares: sin verificar. El sitio la publica como imágenes, no como texto. Se usan las tres casillas de bancada.",
+    bancadas: [
+      { name: "Bancada Partido Nacional", party: "PN", email: "pnacional@juntamaldonado.gub.uy" },
+      { name: "Bancada Frente Amplio", party: "FA", email: "fa@juntamaldonado.gub.uy" },
+      { name: "Bancada Partido Colorado", party: "PC", email: "pcolorado@juntamaldonado.gub.uy" }
     ]
   },
   "Colonia": {
     junta: "Junta Departamental de Colonia",
-    sede: "Rivadavia 467, Colonia del Sacramento",
-    telefono: "(+598) 4522 2038",
-    email_mesa: "secretaria@juntacolonia.gub.uy",
-    has_individual_emails: false,
-    total_ediles: 31
+    sede: "Rivadavia y Alberto Méndez, Colonia del Sacramento",
+    telefono: "4522 2195",
+    email: "legislativo@juntacolonia.gub.uy",
+    rosterNote: "Nómina de titulares: sin verificar."
   },
   "Salto": {
     junta: "Junta Departamental de Salto",
     sede: "Uruguay 1324, Salto",
-    telefono: "(+598) 4733 2470",
-    email_mesa: "juntadepartamentaldedesalto@gmail.com",
-    has_individual_emails: false,
-    total_ediles: 31
+    telefono: "4733 2346",
+    email: "jdsalto@juntadesalto.gub.uy",
+    rosterNote: "Nómina de titulares: sin verificar. La página de autoridades mezcla más de 30 nombres sin marcar titular o suplente."
   },
   "Paysandú": {
     junta: "Junta Departamental de Paysandú",
-    sede: "18 de Julio 1039, Paysandú",
-    telefono: "(+598) 4722 2450",
-    email_mesa: "secretaria@juntapaysandu.gub.uy",
-    has_individual_emails: false,
-    total_ediles: 31
+    sede: "Zorrilla de San Martín y Sarandí, Paysandú",
+    telefono: "4722 4811",
+    email: "direcciondesecretaria@juntadepaysandu.gub.uy",
+    rosterNote: "Nómina de titulares: sin verificar. La página de ediles no indica el partido de cada nombre."
   },
   "San José": {
     junta: "Junta Departamental de San José",
-    sede: "18 de Julio 543, San José de Mayo",
-    telefono: "(+598) 4342 2212",
-    email_mesa: "junta@juntasanjose.gub.uy",
-    has_individual_emails: false,
-    total_ediles: 31
+    sede: "Dr. Evaristo Ciganda 679, San José de Mayo",
+    telefono: "4342 2043",
+    email: "junta@juntasanjose.gub.uy",
+    rosterNote: "Nómina de titulares: sin verificar. El listado oficial mezcla titulares y suplentes."
   },
   "Florida": {
     junta: "Junta Departamental de Florida",
-    sede: "Ursino Barreiro 385, Florida",
-    telefono: "(+598) 4352 2012",
-    email_mesa: "secretaria@juntaflorida.gub.uy",
-    has_individual_emails: false,
-    total_ediles: 31
+    sede: "José E. Rodó 3545, Florida",
+    telefono: "4352 2237",
+    email: "info@juntaflorida.gub.uy",
+    rosterNote: "Nómina de titulares: sin verificar."
   },
   "Río Negro": {
     junta: "Junta Departamental de Río Negro",
-    sede: "25 de Mayo 3169, Fray Bentos",
-    telefono: "(+598) 4562 2012",
-    email_mesa: "junta@juntarionegro.gub.uy",
-    has_individual_emails: false,
-    total_ediles: 31
+    sede: "18 de Julio 1181, Fray Bentos",
+    telefono: "4562 2257 / 4562 1027",
+    email: "secretaria@juntarionegro.gub.uy",
+    rosterNote: "Nómina de titulares: sin verificar."
+  },
+  "Rocha": {
+    junta: "Junta Departamental de Rocha",
+    sede: "Lavalleja 86, Rocha",
+    telefono: "4472 2473",
+    email: null,
+    rosterNote: "No hay un correo institucional publicado en el formulario de contacto. No se inventa una casilla.",
+    ediles: [
+      { name: "Leonardo Abreu", party: "PN" },
+      { name: "Martina Acosta", party: "PN" },
+      { name: "Mauro Amorín", party: "PN" },
+      { name: "Cecilia Berni", party: "PN" },
+      { name: "Joel Cedrés", party: "PN" },
+      { name: "Joaquín de los Santos", party: "PN" },
+      { name: "Maximiliano Ferreira", party: "PN" },
+      { name: "Daniel Fontes", party: "PN" },
+      { name: "Daniel Introini", party: "PN" },
+      { name: "Rafael Iza", party: "PN" },
+      { name: "Cosme Molina", party: "PN" },
+      { name: "Juan Manuel Olivera", party: "PN" },
+      { name: "Alejandra Piñeiro", party: "PN" },
+      { name: "Sebastián Pintos", party: "PN" },
+      { name: "María Inés Rocha", party: "PN" },
+      { name: "Mario Sacia", party: "PN" },
+      { name: "Miguel Sanguinetti", party: "PN" },
+      { name: "Dardo Techera", party: "PN" },
+      { name: "Miguel Vitancurt", party: "PN" },
+      { name: "Juan Da Silva", party: "FA" },
+      { name: "Graciela Fonseca", party: "FA" },
+      { name: "Felipe González", party: "FA" },
+      { name: "Pablo Larrosa", party: "FA" },
+      { name: "Virginia Molina", party: "FA" },
+      { name: "Laura Moreno", party: "FA" },
+      { name: "Susana Núñez", party: "FA" },
+      { name: "Alda Pérez", party: "FA" },
+      { name: "Irineu Riet", party: "FA" },
+      { name: "Manuel Rodríguez", party: "FA" },
+      { name: "Fernando Rodríguez", party: "FA" },
+      { name: "Angel Silva", party: "FA" },
+      { name: "Alejandro Vaselli", party: "FA" }
+    ]
   },
   "Soriano": {
     junta: "Junta Departamental de Soriano",
-    sede: "18 de Julio y Giménez, Mercedes",
-    telefono: "(+598) 4532 2012",
-    email_mesa: "junta@juntasoriano.gub.uy",
-    has_individual_emails: false,
-    total_ediles: 31
+    sede: "18 de Julio y Eusebio Giménez, Mercedes",
+    telefono: "4532 2206",
+    email: "info@juntadesoriano.gub.uy",
+    rosterNote: "La web oficial muestra 30 nombres, no 31. No se agrega el faltante. José Martín Spoturno no tiene partido en la ficha (listas 9, 119 y 9999); no se le asigna uno.",
+    ediles: [
+      { name: "Gonzalo Novales", party: "PN" },
+      { name: "Raúl Bruno", party: "PN" },
+      { name: "Amparo Madrid", party: "PN" },
+      { name: "Damián Valentín", party: "PN" },
+      { name: "Nilda Costa", party: "PN" },
+      { name: "Mayka Acuña", party: "PN" },
+      { name: "Oscar Raúl Morossini", party: "PN" },
+      { name: "Nicolás Azanza", party: "PN" },
+      { name: "Mateo Viurrarena", party: "PN" },
+      { name: "Graciela Benquet", party: "PN" },
+      { name: "Marcelo Arballo", party: "PN" },
+      { name: "Gerardo Gándara", party: "PN" },
+      { name: "Daniel Barrozo", party: "PN" },
+      { name: "Alexis Suhr", party: "PN" },
+      { name: "Claudia Bertalot", party: "PN" },
+      { name: "María Dolores Romero", party: "FA" },
+      { name: "Matías Ortiz", party: "FA" },
+      { name: "Javier Siniestro", party: "FA" },
+      { name: "Claudia Barrientos", party: "FA" },
+      { name: "Daniela Saravia", party: "FA" },
+      { name: "Raphael Núñez", party: "FA" },
+      { name: "Pablo Ponce", party: "FA" },
+      { name: "Damián Alonso", party: "FA" },
+      { name: "Diego Guevara", party: "FA" },
+      { name: "José Martín Spoturno" },
+      { name: "Jorge Izaguirre", party: "FA" },
+      { name: "Andrés Centurión", party: "PC" },
+      { name: "María Alejandra Nuez", party: "PC" },
+      { name: "Atanasio Echániz", party: "PC" },
+      { name: "Santiago Fiorelli", party: "PC" }
+    ]
   },
   "Tacuarembó": {
     junta: "Junta Departamental de Tacuarembó",
-    sede: "18 de Julio 164, Tacuarembó",
-    telefono: "(+598) 4632 2012",
-    email_mesa: "secretaria@juntatacuarembo.gub.uy",
-    has_individual_emails: false,
-    total_ediles: 31
+    sede: "25 de Mayo 132, Tacuarembó",
+    telefono: "4632 4451",
+    email: "legislativo@juntatacuarembo.com.uy",
+    rosterNote: "Nómina de titulares: sin verificar. La página de bancadas no separa con claridad titular y suplente."
   },
   "Rivera": {
     junta: "Junta Departamental de Rivera",
-    sede: "Uruguay 727, Rivera",
-    telefono: "(+598) 4622 2012",
-    email_mesa: "secretaria@juntarivera.gub.uy",
-    has_individual_emails: false,
-    total_ediles: 31
+    sede: "José G. Artigas 1025, Rivera",
+    telefono: "4622 5850 / 4622 9927",
+    email: "juntarivera@adinet.com.uy",
+    rosterNote: "Nómina de titulares: sin verificar. El inicio solo nombra a la mesa, no a los 31."
   },
   "Cerro Largo": {
     junta: "Junta Departamental de Cerro Largo",
-    sede: "Remigio Castellanos 722, Melo",
-    telefono: "(+598) 4642 2012",
-    email_mesa: "junta@juntacerrolargo.gub.uy",
-    has_individual_emails: false,
-    total_ediles: 31
+    sede: "José Pedro Varela 725, Melo",
+    telefono: "4642 2283",
+    email: null,
+    rosterNote: "Correo institucional: sin verificar. La página de contacto no publica una casilla. Nómina de titulares: sin verificar."
   },
   "Durazno": {
     junta: "Junta Departamental de Durazno",
-    sede: "Artigas 449, Durazno",
-    telefono: "(+598) 4362 2212",
-    email_mesa: "secretaria@juntadurazno.gub.uy",
-    has_individual_emails: false,
-    total_ediles: 31
+    sede: "Luis A. de Herrera 880, Durazno",
+    telefono: "4362 2630",
+    email: "contacto@juntadedurazno.gub.uy",
+    rosterNote: "Carla Píriz figura sin casilla: el sitio repite el correo de otro edil.",
+    ediles: [
+      { name: "Luis Gelos", party: "PN", email: "lgelos@juntadedurazno.gub.uy" },
+      { name: "Marcos Motta", party: "PN", email: "mmotta@juntadedurazno.gub.uy" },
+      { name: "Jesús Delgado", party: "PN", email: "jdelgado@juntadedurazno.gub.uy" },
+      { name: "Andrés Dupouy", party: "PN", email: "adupouy@juntadedurazno.gub.uy" },
+      { name: "Juan Carlos Torres", party: "PN", email: "jtorres@juntadedurazno.gub.uy" },
+      { name: "Anabel Fuentes", party: "PN", email: "afuentes@juntadedurazno.gub.uy" },
+      { name: "Alejandro Petutto", party: "FA", email: "apetutto@juntadedurazno.gub.uy" },
+      { name: "Pedro Hernández", party: "FA", email: "phernandez@juntadedurazno.gub.uy" },
+      { name: "María Bochiardo", party: "FA", email: "mbochiardo@juntadedurazno.gub.uy" },
+      { name: "Raúl Curbelo", party: "FA", email: "rcurbelo@juntadedurazno.gub.uy" },
+      { name: "Martín Sastre", party: "PN", email: "msastre@juntadedurazno.gub.uy" },
+      { name: "Martín Vidalín", party: "PN", email: "mvidalin@juntadedurazno.gub.uy" },
+      { name: "Libertad Pintos", party: "PN", email: "lpintos@juntadedurazno.gub.uy" },
+      { name: "Santiago Icasuriaga", party: "PN", email: "sicasuriaga@juntadedurazno.gub.uy" },
+      { name: "Juan Bruno", party: "PN", email: "jbruno@juntadedurazno.gub.uy" },
+      { name: "Henry Morales", party: "PN", email: "hmorales@juntadedurazno.gub.uy" },
+      { name: "José Rizzo", party: "FA", email: "rlicandro@juntadedurazno.gub.uy" },
+      { name: "Pablo Revello", party: "FA", email: "prevello@juntadedurazno.gub.uy" },
+      { name: "Claudio González", party: "FA", email: "cgonzalez@juntadedurazno.gub.uy" },
+      { name: "Ester Rodríguez", party: "FA", email: "erodriguez@juntadedurazno.gub.uy" },
+      { name: "Carla Píriz", party: "FA" },
+      { name: "Andrés Pereyra", party: "PN", email: "apereyra@juntadedurazno.gub.uy" },
+      { name: "Pablo Langone", party: "PN", email: "plangone@juntadedurazno.gub.uy" },
+      { name: "Jonny Baldenegro", party: "PN", email: "jbaldenegro@juntadedurazno.gub.uy" },
+      { name: "Niria de Oliveira", party: "PN", email: "ndeoliveira@juntadedurazno.gub.uy" },
+      { name: "Gabriel Díaz", party: "PN", email: "gdiaz@juntadedurazno.gub.uy" },
+      { name: "Carlos Pereira Elso", party: "PN", email: "cpiriz@juntadedurazno.gub.uy" },
+      { name: "Carlos Carrica", party: "FA", email: "ccarrica@juntadedurazno.gub.uy" },
+      { name: "Rodrigo Castro", party: "FA", email: "rcastro@juntadedurazno.gub.uy" },
+      { name: "Gabriel Montes de Oca", party: "PC", email: "gmontesdeoca@juntadedurazno.gub.uy" },
+      { name: "Daniel Lerena", party: "PC", email: "dlerena@juntadedurazno.gub.uy" }
+    ]
   },
   "Lavalleja": {
     junta: "Junta Departamental de Lavalleja",
-    sede: "Rodó 581, Minas",
-    telefono: "(+598) 4442 2312",
-    email_mesa: "junta@juntalavalleja.gub.uy",
-    has_individual_emails: false,
-    total_ediles: 31
+    sede: "Av. José Pedro Varela 1252, Minas",
+    telefono: "4442 2202",
+    email: "juntalav@vera.com.uy",
+    rosterNote: "La integración publicada tiene 30 nombres, no 31. Las casillas son las que el sitio muestra; varias son personales.",
+    ediles: [
+      { name: "Carla Calabuig", party: "FA", email: "carlacalabuig34@gmail.com" },
+      { name: "Enrique Foderé", party: "FA", email: "enriqueleo69@gmail.com" },
+      { name: "Eugenia Duarte", party: "FA" },
+      { name: "Ezequiel Larrea", party: "FA", email: "ezequiellarrea43@gmail.com" },
+      { name: "Gastón Díaz", party: "FA", email: "gaston.diaz.castro@gmail.com" },
+      { name: "Gonzalo Gómez", party: "FA", email: "ggomezcaraballo@gmail.com" },
+      { name: "Hugo Garcia", party: "FA", email: "hugogar8409@gmail.com" },
+      { name: "Hugo Migliani", party: "FA" },
+      { name: "Isabel Urquiola", party: "FA" },
+      { name: "Joaquín López", party: "FA", email: "joaquinlopezh95@gmail.com" },
+      { name: "Luisa Mazzoni", party: "FA", email: "luisamazzonipiriz@gmail.com" },
+      { name: "Mauro Álvarez", party: "FA", email: "mr.alvareztito@gmail.com" },
+      { name: "Miguel Sanz", party: "FA" },
+      { name: "Paola Rojas", party: "FA" },
+      { name: "Sara Mazzoni", party: "FA", email: "saramazzonif2019@gmail.com" },
+      { name: "Alcides Larrosa", party: "PN", email: "larrosamoreno1952@gmail.com" },
+      { name: "Ana Laura Nis", party: "PN", email: "anisppe@gmail.com" },
+      { name: "Carol Aviaga", party: "PN", email: "carolaviaga@gmail.com" },
+      { name: "Dolores García Pintos", party: "PN", email: "doloresgpa@gmail.com" },
+      { name: "Gabriel Gutiérrez", party: "PN", email: "gabrielgutierrezper@gmail.com" },
+      { name: "Gabriela Umpierrez", party: "PN", email: "draumpierrez@gmail.com" },
+      { name: "Gastón Elola", party: "PN", email: "gastonelola56@hotmail.com" },
+      { name: "Gerardo Effinger", party: "PN", email: "gerardoeffinger@icloud.com" },
+      { name: "Hugo Olascoaga", party: "PN", email: "hugo.olascoaga@gmail.com" },
+      { name: "Joaquín Hernández", party: "PN", email: "joaquinhp2012@hotmail.com" },
+      { name: "José Rojas", party: "PN", email: "ingagr.joserojas@gmail.com" },
+      { name: "Verónica Machado", party: "PN", email: "dramachadosolis@gmail.com" },
+      { name: "Julio Sánchez", party: "PC", email: "jcg955@hotmail.com" },
+      { name: "Luis Carresse", party: "PC", email: "luismacarresse@gmail.com" },
+      { name: "Néstor Calvo", party: "PC", email: "nestorac1974@gmail.com" }
+    ]
   },
   "Treinta y Tres": {
     junta: "Junta Departamental de Treinta y Tres",
-    sede: "Juan Antonio Lavalleja 1248, Treinta y Tres",
-    telefono: "(+598) 4452 2012",
-    email_mesa: "secretaria@juntatreintaytres.gub.uy",
-    has_individual_emails: false,
-    total_ediles: 31
+    sede: null,
+    telefono: null,
+    email: null,
+    rosterNote: "Sede, teléfono y correo de mesa: sin verificar. El contacto oficial es un formulario. Nómina de titulares: sin verificar. Sí hay casillas de bancada.",
+    bancadas: [
+      { name: "Bancada Partido Nacional", party: "PN", email: "partidonacional@juntatreintaytres.gub.uy" },
+      { name: "Bancada Frente Amplio", party: "FA", email: "frenteamplio@juntatreintaytres.gub.uy" }
+    ]
   },
   "Artigas": {
     junta: "Junta Departamental de Artigas",
-    sede: "Garzón 475, Artigas",
-    telefono: "(+598) 4772 2112",
-    email_mesa: "junta@juntaartigas.gub.uy",
-    has_individual_emails: false,
-    total_ediles: 31
+    sede: "Av. Carlos Lecueder 510, Artigas",
+    telefono: "4772 4859",
+    email: "jda@juntadeartigas.gub.uy",
+    ediles: [
+      { name: "Nelton Barreda", party: "PN" },
+      { name: "Andrés Rodríguez Vanuffelen", party: "PC" },
+      { name: "Guillermo Gasteasoro Nallen", party: "FA" },
+      { name: "Monica Vaz Martins", party: "PN" },
+      { name: "Wilfredo Correa", party: "CA" },
+      { name: "Gabriela Balbi", party: "PN" },
+      { name: "Eduardo García", party: "PN" },
+      { name: "Adolfo Cebey", party: "PN" },
+      { name: "Alejandro Pablo Silvera Iturralde", party: "PN" },
+      { name: "Angel Omar Dos Santos", party: "PN" },
+      { name: "Carolina Lorenzo", party: "FA" },
+      { name: "Daniel Argañaraz", party: "PC" },
+      { name: "David Da Costa", party: "PN" },
+      { name: "Eliss Acuña", party: "FA" },
+      { name: "Estela Ferreira", party: "PN" },
+      { name: "Gastón Silva", party: "FA" },
+      { name: "Graciela Echegoyen", party: "PN" },
+      { name: "Jorge Ariel Paiva de Souza", party: "PN" },
+      { name: "José Moscardi Fagundez", party: "FA" },
+      { name: "Juan Carlos Brandon Godoy", party: "PN" },
+      { name: "Juan Obiedo", party: "FA" },
+      { name: "Mari Esther Izaguirre", party: "FA" },
+      { name: "Marisa Correa", party: "CA" },
+      { name: "Mateo Ayala Alegre", party: "PN" },
+      { name: "Mercedes Barboza", party: "PN" },
+      { name: "Miguel Ángel Gimenez Viera", party: "PN" },
+      { name: "Miguel Castro", party: "FA" },
+      { name: "Natalia Bruno", party: "PN" },
+      { name: "Paola Zapata Lima", party: "FA" },
+      { name: "Roberto Rodríguez Sant'Anna", party: "CA" },
+      { name: "Sebastián Paz Ayala", party: "PN" }
+    ]
   },
   "Flores": {
     junta: "Junta Departamental de Flores",
-    sede: "Santísima Trinidad 520, Trinidad",
-    telefono: "(+598) 4364 2012",
-    email_mesa: "secretaria@juntaflores.gub.uy",
-    has_individual_emails: false,
-    total_ediles: 31
+    sede: "Treinta y Tres 520, Trinidad",
+    telefono: "4364 2553 / 4364 3865",
+    email: "jdflores@adinet.com.uy",
+    rosterNote: "Nómina de titulares: sin verificar. El sitio publica la mesa 2026-2027, no los 31 nombres."
   }
-};
-
-const FILTER_ACTIVE = {
-  all: "px-3 py-1 rounded-lg text-white font-medium transition bg-blue-600",
-  FA: "px-3 py-1 rounded-lg font-medium transition bg-red-800 text-red-100",
-  CR: "px-3 py-1 rounded-lg font-medium transition bg-sky-700 text-sky-100"
-};
-
-const FILTER_IDLE = {
-  all: "px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 font-medium transition text-slate-300",
-  FA: "px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 font-medium transition text-red-300 border border-red-900/50",
-  CR: "px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 font-medium transition text-sky-300 border border-sky-900/50"
-};
-
-const PARTY_BADGE = {
-  FA: "text-xs px-1.5 py-0.5 rounded font-semibold bg-red-950/80 text-red-300 border border-red-800",
-  CR: "text-xs px-1.5 py-0.5 rounded font-semibold bg-sky-950/80 text-sky-300 border border-sky-800"
 };
 
 let currentDept = "Montevideo";
-let selectedEmails = new Set(DEPARTAMENTOS_DATA["Montevideo"].ediles.map((e) => e.email));
 let currentFilter = "all";
+let selectedEmails = new Set();
 let copyToastTimer = 0;
 
+function deptData() {
+  return DEPARTAMENTOS_DATA[currentDept];
+}
+
+function edilesOf(dept) {
+  return dept.ediles || [];
+}
+
+function bancadasOf(dept) {
+  return dept.bancadas || [];
+}
+
+function partiesIn(dept) {
+  const found = [];
+  [...edilesOf(dept), ...bancadasOf(dept)].forEach((item) => {
+    if (item.party && !found.includes(item.party)) found.push(item.party);
+  });
+  return found;
+}
+
+function rowsFor(dept, filter) {
+  const rows = [];
+  edilesOf(dept).forEach((edil) => {
+    if (filter !== "all" && edil.party !== filter) return;
+    rows.push({ kind: "edil", ...edil });
+  });
+  bancadasOf(dept).forEach((bancada) => {
+    if (filter !== "all" && bancada.party !== filter) return;
+    rows.push({ kind: "bancada", ...bancada });
+  });
+  return rows;
+}
+
+function selectableEmails(dept, filter = "all") {
+  return rowsFor(dept, filter).filter((row) => row.email).map((row) => row.email);
+}
+
+function showField(value) {
+  return value ? value : "sin verificar";
+}
+
+function trackEvent(name, data) {
+  if (typeof window.va === "function") {
+    window.va("event", { name: name, data: data });
+  }
+}
+
+function delivery() {
+  const dept = deptData();
+  const bccList = Array.from(selectedEmails);
+  if (dept.email) {
+    return { to: dept.email, bcc: bccList };
+  }
+  return { to: bccList.join(","), bcc: [] };
+}
+
+function canSend() {
+  const dept = deptData();
+  const selectable = selectableEmails(dept);
+  if (selectable.length > 0) return selectedEmails.size > 0;
+  return Boolean(dept.email);
+}
+
 function changeDepartment() {
-  const select = document.getElementById("deptSelect");
-  currentDept = select.value;
-  const deptData = DEPARTAMENTOS_DATA[currentDept];
+  currentDept = document.getElementById("deptSelect").value;
+  currentFilter = "all";
+  selectedEmails = new Set(selectableEmails(deptData()));
+  renderDepartment();
+}
 
+function renderDepartment() {
+  const dept = deptData();
   document.getElementById("badgeJuntaCity").textContent = currentDept;
-  document.getElementById("deptNameHeading").textContent = currentDept;
-  document.getElementById("mesaEntradaEmailDisplay").textContent = deptData.email_mesa;
+  const named = edilesOf(dept).length;
+  document.getElementById("edilesTotal").textContent = named ? String(named) : "—";
+  document.getElementById("edilesCaption").textContent = named ? "titulares publicados" : "nómina sin verificar";
 
-  const selButtons = document.getElementById("selectionButtonsWrap");
-  const filterButtons = document.getElementById("filterButtonsContainer");
-
-  if (deptData.has_individual_emails) {
-    if (selButtons) selButtons.classList.remove("hidden");
-    if (filterButtons) filterButtons.classList.remove("hidden");
-    selectedEmails = new Set(deptData.ediles.map((e) => e.email));
-    renderCountLabels();
-    renderEdiles();
-  } else {
-    if (selButtons) selButtons.classList.add("hidden");
-    if (filterButtons) filterButtons.classList.add("hidden");
-    selectedEmails = new Set();
-    renderDepartmentInfo(deptData);
+  const strip = document.getElementById("contactStrip");
+  strip.replaceChildren();
+  const lines = [
+    ["Sede", showField(dept.sede)],
+    ["Teléfono", showField(dept.telefono)],
+    ["Correo institucional", showField(dept.email)]
+  ];
+  lines.forEach(([label, value]) => {
+    const row = document.createElement("div");
+    const strong = document.createElement("strong");
+    strong.className = "text-slate-100";
+    strong.textContent = `${label}: `;
+    row.append(strong, document.createTextNode(value));
+    if (value === "sin verificar") row.className = "text-amber-200";
+    strip.appendChild(row);
+  });
+  if (dept.rosterNote) {
+    const note = document.createElement("p");
+    note.className = "mt-2 text-amber-200";
+    note.textContent = dept.rosterNote;
+    strip.appendChild(note);
   }
 
+  const hasSelectable = selectableEmails(dept).length > 0;
+  document.getElementById("selectionButtonsWrap").classList.toggle("hidden", !hasSelectable);
+  renderFilters(dept);
+  renderRows();
+
+  const mesa = document.getElementById("mesaEntradaNote");
+  mesa.textContent = dept.email
+    ? `Para: ${dept.email}. La copia oculta incluye solo las casillas marcadas.`
+    : "Sin correo institucional verificado: el envío usa únicamente las casillas marcadas.";
   updatePreview();
 }
 
-function renderDepartmentInfo(deptData) {
-  const container = document.getElementById("edilesList");
-  let rosterHtml = "";
-  if (deptData.ediles_names && deptData.ediles_names.length > 0) {
-    rosterHtml = `
-      <div class="mt-2 border-t border-slate-800/80 pt-2">
-        <strong class="text-slate-300 block mb-1">Nómina representativa de Ediles:</strong>
-        <div class="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto pr-1">
-          ${deptData.ediles_names.map(name => `<span class="px-2 py-0.5 bg-slate-950 border border-slate-800 rounded text-[11px] text-slate-300">${name}</span>`).join('')}
-        </div>
-      </div>
-    `;
+function renderFilters(dept) {
+  const container = document.getElementById("filterButtonsContainer");
+  const parties = partiesIn(dept);
+  container.replaceChildren();
+  if (parties.length === 0) {
+    container.classList.add("hidden");
+    return;
   }
-
-  container.innerHTML = `
-    <div class="p-3 bg-slate-900 rounded-xl space-y-2 text-xs">
-      <div class="text-white font-semibold flex items-center justify-between">
-        <span>🏛️ ${deptData.junta}</span>
-        <span class="text-emerald-400 font-mono text-[11px] font-normal">31 Ediles Titulares</span>
-      </div>
-      <div class="text-slate-300 leading-relaxed">
-        📍 <strong>Sede:</strong> ${deptData.sede}<br>
-        📞 <strong>Teléfono de contacto:</strong> ${deptData.telefono}<br>
-        ✉️ <strong>Mesa de Entrada / Secretaría:</strong> <span class="text-blue-400 font-mono">${deptData.email_mesa}</span>
-      </div>
-      ${rosterHtml}
-      <div class="text-[11px] text-slate-400 border-t border-slate-800 pt-2">
-        El correo será remitido formalmente a la Mesa de Entrada y Secretaría de la Junta Departamental para que sea cursado y notificado a los <strong>31 ediles titulares y secretarías de bancada</strong> de ${currentDept}.
-      </div>
-    </div>
-  `;
-  document.getElementById("selectedCount").textContent = "31 Ediles (vía Mesa Oficial)";
+  container.classList.remove("hidden");
+  ["all", ...parties].forEach((party) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.id = `filterBtn-${party}`;
+    const count = party === "all"
+      ? edilesOf(dept).length + bancadasOf(dept).length
+      : [...edilesOf(dept), ...bancadasOf(dept)].filter((item) => item.party === party).length;
+    button.textContent = party === "all" ? `Todos (${count})` : `${PARTY_LABEL[party]} (${count})`;
+    const active = party === currentFilter;
+    button.className = active ? FILTER_ACTIVE[party] : FILTER_IDLE[party];
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+    button.addEventListener("click", () => filterParty(party));
+    container.appendChild(button);
+  });
 }
 
-function partyCounts() {
-  const deptData = DEPARTAMENTOS_DATA[currentDept];
-  const counts = { FA: 0, CR: 0 };
-  if (deptData.has_individual_emails) {
-    deptData.ediles.forEach((edil) => {
-      counts[edil.party] = (counts[edil.party] || 0) + 1;
-    });
-  }
-  return counts;
-}
-
-function renderCountLabels() {
-  const deptData = DEPARTAMENTOS_DATA[currentDept];
-  if (!deptData.has_individual_emails) return;
-
-  const counts = partyCounts();
-  const edilesList = deptData.ediles;
-
-  document.getElementById("edilesTotal").textContent = String(edilesList.length);
-  document.getElementById("filterBtn-all").textContent = `Todos (${edilesList.length})`;
-  document.getElementById("filterBtn-FA").textContent = `Frente Amplio (${counts.FA})`;
-  document.getElementById("filterBtn-CR").textContent = `Coalición Republicana (${counts.CR})`;
-}
-
-function inputIdFor(email) {
-  return "edil-" + email.replace(/[^a-z0-9]+/gi, "-");
-}
-
-function renderEdiles(filter = currentFilter) {
-  currentFilter = filter;
-  const deptData = DEPARTAMENTOS_DATA[currentDept];
-  if (!deptData.has_individual_emails) return;
-
+function renderRows() {
+  const dept = deptData();
   const container = document.getElementById("edilesList");
   container.replaceChildren();
-
-  const filtered = deptData.ediles.filter((edil) => filter === "all" || edil.party === filter);
-
-  filtered.forEach((edil) => {
-    const inputId = inputIdFor(edil.email);
-    const label = document.createElement("label");
-    label.htmlFor = inputId;
-    label.className = "flex items-center justify-between gap-3 p-2 rounded-lg hover:bg-slate-900/80 cursor-pointer text-xs transition border border-transparent hover:border-slate-800";
+  const rows = rowsFor(dept, currentFilter);
+  if (rows.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "text-sm text-slate-300";
+    empty.textContent = dept.rosterNote || "Sin filas para este filtro.";
+    container.appendChild(empty);
+  }
+  rows.forEach((row) => {
+    const label = document.createElement(row.email ? "label" : "div");
+    label.className = "flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between p-2 rounded-lg border border-transparent text-sm min-w-0";
+    if (row.email) label.className += " hover:bg-slate-900/80 cursor-pointer hover:border-slate-800";
 
     const left = document.createElement("span");
-    left.className = "flex items-center gap-2.5 min-w-0";
+    left.className = "flex items-center gap-2 min-w-0";
 
-    const input = document.createElement("input");
-    input.type = "checkbox";
-    input.id = inputId;
-    input.className = "rounded border-slate-700 bg-slate-950 accent-blue-600 focus:outline-none";
-    input.checked = selectedEmails.has(edil.email);
-    input.addEventListener("change", () => toggleEmail(edil.email));
+    if (row.email) {
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      input.className = "rounded border-slate-700 bg-slate-950 accent-blue-600 shrink-0";
+      input.checked = selectedEmails.has(row.email);
+      input.setAttribute("aria-label", row.name);
+      input.addEventListener("change", () => toggleEmail(row.email));
+      left.appendChild(input);
+    }
 
     const name = document.createElement("span");
-    name.className = "text-slate-200 font-medium";
-    name.textContent = edil.name;
+    name.className = "text-slate-100 font-medium break-words";
+    name.textContent = row.name;
+    left.appendChild(name);
 
-    const badge = document.createElement("span");
-    badge.className = PARTY_BADGE[edil.party] || PARTY_BADGE.CR;
-    badge.textContent = edil.party;
+    if (row.party && PARTY_BADGE[row.party]) {
+      const badge = document.createElement("span");
+      badge.className = PARTY_BADGE[row.party];
+      badge.textContent = row.party;
+      left.appendChild(badge);
+    }
+
+    label.appendChild(left);
 
     const email = document.createElement("span");
-    email.className = "text-slate-400 font-mono text-xs shrink-0";
-    email.textContent = edil.email;
-
-    left.append(input, name, badge);
-    label.append(left, email);
+    email.className = "text-slate-300 font-mono text-sm break-all sm:text-right sm:max-w-[58%]";
+    email.textContent = row.email || "sin casilla publicada";
+    if (!row.email) email.className += " text-amber-200";
+    label.appendChild(email);
     container.appendChild(label);
   });
 
-  document.getElementById("selectedCount").textContent = String(selectedEmails.size);
+  const selectedCount = selectedEmails.size;
+  const summary = `${currentDept} · ${selectedCount} seleccionado${selectedCount === 1 ? "" : "s"}`;
+  document.getElementById("deptRecipientSummary").textContent = summary;
   updateFilterButtons();
-  updatePreview();
+}
+
+function updateFilterButtons() {
+  ["all", "FA", "PN", "PC", "CR", "CA"].forEach((party) => {
+    const button = document.getElementById(`filterBtn-${party}`);
+    if (!button || !FILTER_ACTIVE[party]) return;
+    const active = party === currentFilter;
+    button.className = active ? FILTER_ACTIVE[party] : FILTER_IDLE[party];
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+  });
 }
 
 function toggleEmail(email) {
   if (selectedEmails.has(email)) selectedEmails.delete(email);
   else selectedEmails.add(email);
-  document.getElementById("selectedCount").textContent = String(selectedEmails.size);
+  const selectedCount = selectedEmails.size;
+  document.getElementById("deptRecipientSummary").textContent = `${currentDept} · ${selectedCount} seleccionado${selectedCount === 1 ? "" : "s"}`;
   updatePreview();
 }
 
 function selectAll(check) {
-  const deptData = DEPARTAMENTOS_DATA[currentDept];
-  if (!deptData.has_individual_emails) return;
-
-  if (check) {
-    if (currentFilter === "all") {
-      selectedEmails = new Set(deptData.ediles.map((edil) => edil.email));
-    } else {
-      deptData.ediles.filter((edil) => edil.party === currentFilter).forEach((edil) => selectedEmails.add(edil.email));
-    }
-  } else if (currentFilter === "all") {
-    selectedEmails.clear();
-  } else {
-    deptData.ediles.filter((edil) => edil.party === currentFilter).forEach((edil) => selectedEmails.delete(edil.email));
-  }
-  renderEdiles();
+  const emails = selectableEmails(deptData(), currentFilter);
+  if (check) emails.forEach((email) => selectedEmails.add(email));
+  else emails.forEach((email) => selectedEmails.delete(email));
+  renderRows();
+  updatePreview();
 }
 
 function filterParty(party) {
   currentFilter = party;
-  const deptData = DEPARTAMENTOS_DATA[currentDept];
-  if (deptData.has_individual_emails) {
-    if (party === "all") {
-      selectedEmails = new Set(deptData.ediles.map((edil) => edil.email));
-    } else {
-      selectedEmails = new Set(deptData.ediles.filter((edil) => edil.party === party).map((edil) => edil.email));
-    }
+  const dept = deptData();
+  if (selectableEmails(dept).length > 0) {
+    selectedEmails = new Set(selectableEmails(dept, party));
   }
-  renderEdiles(party);
-}
-
-function updateFilterButtons() {
-  ["all", "FA", "CR"].forEach((party) => {
-    const button = document.getElementById(`filterBtn-${party}`);
-    if (!button) return;
-    const active = party === currentFilter;
-    button.className = active ? FILTER_ACTIVE[party] : FILTER_IDLE[party];
-    button.setAttribute("aria-pressed", active ? "true" : "false");
-  });
+  renderRows();
+  updatePreview();
 }
 
 function readNombre() {
@@ -423,88 +653,76 @@ function readNombre() {
 function generateMailContent() {
   const nombre = readNombre();
   const ci = document.getElementById("cedula").value.trim();
-  const signatureLine = nombre ? `${nombre}${ci ? ` (C.I. ${ci})` : ""}\n` : "";
-  const deptData = DEPARTAMENTOS_DATA[currentDept];
+  const dept = deptData();
+  const subject = `Pedido de información sobre asesores – ${dept.junta}`;
+  const firma = nombre ? `${nombre}${ci ? ` (C.I. ${ci})` : ""}` : "";
+  const canal = currentDept === "Montevideo"
+    ? "En Montevideo este mensaje va a la Mesa de Entrada y a las casillas de despacho marcadas."
+    : "Este mensaje va a la casilla institucional verificada y, si las hay, a las casillas de edil o de bancada publicadas por la Junta.";
+  const body = `Estimados/as ediles de la ${dept.junta}:
 
-  const subject = `Consulta ciudadana sobre equipo de asesores – ${deptData.junta}`;
-  const body = `Estimados/as Sres. y Sras. Ediles de la ${deptData.junta},
+Soy ciudadano/a de ${currentDept}. ${canal}
 
-Me dirijo a ustedes en mi condición de ciudadano y vecino del departamento de ${currentDept}, en el marco del interés público y los principios republicanos de transparencia activa en la función legislativa departamental.
+Pido, en forma voluntaria, esta información sobre asesores y secretarios de cada banca:
+1. Nómina y cantidad.
+2. Si trabajan para el edil, para el partido o en otro ámbito.
+3. Tareas y régimen de contratación.
+4. Remuneración o partida mensual.
 
-A través del presente mensaje, me pongo en contacto directo con sus despachos y bancadas para solicitarles información relativa a las personas que figuran o desempeñan funciones de asesoría y secretaría vinculadas a sus respectivas bancas:
+La Ley 18.381, art. 15, da 20 días hábiles para responder un pedido formal. Estos 7 días son solo un pedido voluntario. Si no hay respuesta, formalizaré el pedido ante la Mesa de Entrada, con identificación, domicilio y contacto (art. 13).
 
-1. Nómina y cantidad: Nombres y cantidad de personas contratadas, designadas o asignadas como asesores técnicos, políticos, secretarios o pases en comisión para cada despacho o bancada.
-2. Destino real de funciones y dependencia: Si dichas personas prestan funciones directamente para los ediles y su labor parlamentaria en la Junta, si responden a la estructura de sus respectivos sectores o partidos políticos, si desempeñan tareas en otro ámbito, o si se desconocen sus funciones efectivas.
-3. Perfil y tareas: Cometidos principales, áreas de especialidad y régimen de contratación de cada uno.
-4. Remuneraciones y partidas: Montos mensuales asignados o partidas públicas destinadas a tales efectos.
+${firma}
+${currentDept}, Uruguay`;
+  return { subject, body };
+}
 
-Considero fundamental para el fortalecimiento democrático y el control ciudadano que se conozca con claridad el destino y la utilidad del gasto público en el legislativo departamental de ${currentDept}.
+function recipientBlock() {
+  const { to, bcc } = delivery();
+  const para = to || "—";
+  const cco = bcc.length ? bcc.join(", ") : "—";
+  return `Para: ${para}\nCCO: ${cco}`;
+}
 
-Dejo constancia de que, en caso de no obtener respuesta en el plazo de una semana (7 días), procederé a formalizar el correspondiente Pedido de Acceso a la Información Pública al amparo de la Ley N° 18.381 ante la Mesa de Entrada oficial de la Junta.
+function mailtoUrl() {
+  const { subject, body } = generateMailContent();
+  const { to, bcc } = delivery();
+  const params = [];
+  if (bcc.length) params.push(`bcc=${encodeURIComponent(bcc.join(","))}`);
+  params.push(`subject=${encodeURIComponent(subject)}`);
+  params.push(`body=${encodeURIComponent(body)}`);
+  return `mailto:${to}?${params.join("&")}`;
+}
 
-Agradezco de antemano su tiempo y respuesta.
-
-Saludos cordiales,
-${signatureLine}Departamento de ${currentDept}, Uruguay`;
-
-  return { subject, body, nombre };
+function gmailUrl() {
+  const { subject, body } = generateMailContent();
+  const { to, bcc } = delivery();
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&bcc=${encodeURIComponent(bcc.join(","))}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
 function updatePreview() {
   const { body, subject } = generateMailContent();
-  const deptData = DEPARTAMENTOS_DATA[currentDept];
+  const { to, bcc } = delivery();
+  document.getElementById("emailBodyPreview").textContent = body;
+  document.getElementById("previewTo").textContent = to || "—";
+  document.getElementById("previewBcc").textContent = bcc.length ? bcc.join(", ") : "—";
+  document.getElementById("previewSubject").textContent = subject;
 
-  const previewEl = document.getElementById("emailBodyPreview");
-  if (previewEl) previewEl.textContent = body;
-  const toEl = document.getElementById("previewTo");
-  if (toEl) toEl.textContent = deptData.email_mesa;
-  const subjectEl = document.getElementById("previewSubject");
-  if (subjectEl) subjectEl.textContent = subject;
-  const bccEl = document.getElementById("previewBcc");
-  if (bccEl) {
-    if (deptData.has_individual_emails) {
-      bccEl.textContent = `${selectedEmails.size} casillas seleccionadas`;
-    } else if (deptData.email_secundario) {
-      bccEl.textContent = `${deptData.email_secundario} (Secretaría / Bancadas)`;
-    } else {
-      bccEl.textContent = `Secretaría General y Bancadas de ${currentDept}`;
-    }
-  }
-}
+  const sendEnabled = canSend();
+  document.getElementById("btnSendMail").disabled = !sendEnabled;
+  document.getElementById("btnSendGmail").disabled = !sendEnabled;
+  document.getElementById("btnCopyRecipients").disabled = !to && bcc.length === 0;
+  document.getElementById("btnCopySubject").disabled = false;
+  document.getElementById("btnCopyAll").disabled = !to && bcc.length === 0;
 
-function recipientBlock() {
-  const deptData = DEPARTAMENTOS_DATA[currentDept];
-  let bcc = "";
-  if (deptData.has_individual_emails) {
-    bcc = Array.from(selectedEmails).join(", ");
-  } else if (deptData.email_secundario) {
-    bcc = deptData.email_secundario;
+  const hint = document.getElementById("mailtoHint");
+  if (!sendEnabled) {
+    hint.textContent = "Elegí al menos una casilla, o un departamento con correo institucional verificado, para abrir el borrador.";
+    return;
   }
-  return `Para: ${deptData.email_mesa}${bcc ? `\nCCO: ${bcc}` : ""}`;
-}
-
-function triggerSend(target) {
-  if (typeof window.va === "function") {
-    window.va("event", { name: "send_click", department: currentDept });
-  }
-  const { subject, body } = generateMailContent();
-  const deptData = DEPARTAMENTOS_DATA[currentDept];
-  const to = deptData.email_mesa;
-  let bcc = "";
-
-  if (deptData.has_individual_emails) {
-    bcc = Array.from(selectedEmails).join(",");
-  } else if (deptData.email_secundario) {
-    bcc = deptData.email_secundario;
-  }
-
-  if (target === "gmail") {
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&bcc=${encodeURIComponent(bcc)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.open(gmailUrl, "_blank", "noopener");
-  } else {
-    const mailtoUrl = `mailto:${to}?bcc=${encodeURIComponent(bcc)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailtoUrl;
-  }
+  const mailLength = mailtoUrl().length;
+  hint.textContent = mailLength <= MAILTO_LIMIT
+    ? `El enlace de la app de correo mide ${mailLength} caracteres.`
+    : `El enlace de la app de correo mide ${mailLength} caracteres y se pasa de ~2000. En ese caso el botón copia el texto completo, igual al de la vista previa. Gmail sigue disponible si el enlace entra.`;
 }
 
 function showToast(message) {
@@ -512,14 +730,39 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.remove("hidden");
   window.clearTimeout(copyToastTimer);
-  copyToastTimer = window.setTimeout(() => toast.classList.add("hidden"), 3500);
+  copyToastTimer = window.setTimeout(() => toast.classList.add("hidden"), 4000);
 }
 
 function copyText(text, successMessage) {
-  navigator.clipboard.writeText(text).then(
-    () => showToast(successMessage),
-    () => showToast("No se pudo copiar. Revisá el permiso del navegador.")
-  );
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(
+      () => showToast(successMessage),
+      () => showToast("No se pudo copiar. Revisá el permiso del navegador.")
+    );
+    return;
+  }
+  showToast("No se pudo copiar. Revisá el permiso del navegador.");
+}
+
+function triggerSend(target) {
+  if (!canSend()) return;
+  trackEvent(target === "gmail" ? "send_gmail_click" : "send_mail_click", { department: currentDept });
+  const { subject, body } = generateMailContent();
+  if (target === "gmail") {
+    const url = gmailUrl();
+    if (url.length > GMAIL_LIMIT) {
+      copyText(`${recipientBlock()}\nAsunto: ${subject}\n\n${body}`, "El enlace de Gmail es demasiado largo. Copiamos el correo completo.");
+      return;
+    }
+    window.open(url, "_blank", "noopener");
+    return;
+  }
+  const url = mailtoUrl();
+  if (url.length > MAILTO_LIMIT) {
+    copyText(`${recipientBlock()}\nAsunto: ${subject}\n\n${body}`, "El enlace mailto supera ~2000 caracteres. Copiamos Para, CCO, asunto y texto.");
+    return;
+  }
+  window.location.href = url;
 }
 
 function copyRecipients() {
@@ -527,17 +770,13 @@ function copyRecipients() {
 }
 
 function copySubject() {
-  const deptData = DEPARTAMENTOS_DATA[currentDept];
-  copyText(`Consulta ciudadana sobre equipo de asesores – ${deptData.junta}`, "Asunto copiado.");
+  copyText(generateMailContent().subject, "Asunto copiado.");
 }
 
 function copyAll() {
-  if (typeof window.va === "function") {
-    window.va("event", { name: "copy_all_click", department: currentDept });
-  }
+  trackEvent("copy_all_click", { department: currentDept });
   const { subject, body } = generateMailContent();
-  const fullText = `${recipientBlock()}\nAsunto: ${subject}\n\n${body}`;
-  copyText(fullText, "Datos completos copiados (Para, CCO, Asunto y Texto).");
+  copyText(`${recipientBlock()}\nAsunto: ${subject}\n\n${body}`, "Datos completos copiados (Para, CCO, asunto y texto).");
 }
 
 document.getElementById("deptSelect").addEventListener("change", changeDepartment);
@@ -545,15 +784,11 @@ document.getElementById("nombre").addEventListener("input", updatePreview);
 document.getElementById("cedula").addEventListener("input", updatePreview);
 document.getElementById("btnSelectAll").addEventListener("click", () => selectAll(true));
 document.getElementById("btnDeselectAll").addEventListener("click", () => selectAll(false));
-document.getElementById("filterBtn-all").addEventListener("click", () => filterParty("all"));
-document.getElementById("filterBtn-FA").addEventListener("click", () => filterParty("FA"));
-document.getElementById("filterBtn-CR").addEventListener("click", () => filterParty("CR"));
-document.getElementById("btnSendMail").addEventListener("click", () => triggerSend("default"));
+document.getElementById("btnSendMail").addEventListener("click", () => triggerSend("mail"));
 document.getElementById("btnSendGmail").addEventListener("click", () => triggerSend("gmail"));
 document.getElementById("btnCopyRecipients").addEventListener("click", copyRecipients);
 document.getElementById("btnCopySubject").addEventListener("click", copySubject);
 document.getElementById("btnCopyAll").addEventListener("click", copyAll);
 
-renderCountLabels();
-renderEdiles();
-updatePreview();
+selectedEmails = new Set(selectableEmails(deptData()));
+renderDepartment();
