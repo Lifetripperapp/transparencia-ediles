@@ -174,21 +174,10 @@ function readNombre() {
   return document.getElementById("nombre").value.trim();
 }
 
-function syncNameGate() {
-  const ok = readNombre().length > 0;
-  ["btnSendMail", "btnSendGmail", "btnCopyRecipients", "btnCopySubject", "btnCopyAll"].forEach((id) => {
-    document.getElementById(id).disabled = !ok;
-  });
-  const error = document.getElementById("nombreError");
-  error.classList.toggle("hidden", ok);
-  document.getElementById("nombre").setAttribute("aria-invalid", ok ? "false" : "true");
-  return ok;
-}
-
 function generateMailContent() {
   const nombre = readNombre();
   const ci = document.getElementById("cedula").value.trim();
-  const ciText = ci ? ` (C.I. ${ci})` : "";
+  const signatureLine = nombre ? `${nombre}${ci ? ` (C.I. ${ci})` : ""}\n` : "";
   const body = `Estimado/a Edil/a,
 
 Me dirijo a usted en mi condición de ciudadano y vecino de Montevideo, en el marco del interés público y los principios republicanos de transparencia activa en la función legislativa departamental.
@@ -207,8 +196,7 @@ Dejo constancia de que, en caso de no obtener respuesta en el plazo de una seman
 Agradezco de antemano su tiempo y respuesta.
 
 Saludos cordiales,
-${nombre}${ciText}
-Montevideo, Uruguay`;
+${signatureLine}Montevideo, Uruguay`;
 
   return { subject: MAIL_SUBJECT, body, nombre };
 }
@@ -221,7 +209,6 @@ function updatePreview() {
   if (subjectEl) subjectEl.textContent = subject;
   const bccEl = document.getElementById("previewBcc");
   if (bccEl) bccEl.textContent = `${selectedEmails.size} casillas seleccionadas`;
-  syncNameGate();
 }
 
 function recipientBlock() {
@@ -230,7 +217,6 @@ function recipientBlock() {
 }
 
 function triggerSend(target) {
-  if (!syncNameGate()) return;
   if (typeof window.va === "function") {
     window.va("event", { name: "send_click" });
   }
@@ -255,7 +241,6 @@ function showToast(message) {
 }
 
 function copyText(text, successMessage) {
-  if (!syncNameGate()) return;
   navigator.clipboard.writeText(text).then(
     () => showToast(successMessage),
     () => showToast("No se pudo copiar. Revisá el permiso del navegador.")

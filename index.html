@@ -100,9 +100,8 @@
       </h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label for="nombre" class="block text-xs font-medium text-slate-400 mb-1">Tu Nombre y Apellido</label>
-          <input type="text" id="nombre" name="nombre" autocomplete="name" required aria-required="true" aria-describedby="nombreError" placeholder="Ej: Juan Pérez" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 transition">
-          <p id="nombreError" class="text-xs text-amber-200 mt-1" role="status">Ingresá tu nombre y apellido para habilitar el envío y la copia.</p>
+          <label for="nombre" class="block text-xs font-medium text-slate-400 mb-1">Tu Nombre y Apellido (Opcional)</label>
+          <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Ej: Juan Pérez" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 transition">
         </div>
         <div>
           <label for="cedula" class="block text-xs font-medium text-slate-400 mb-1">Cédula de Identidad (Opcional)</label>
@@ -163,10 +162,10 @@
       </h2>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-        <button type="button" id="btnSendMail" disabled class="flex items-center justify-center gap-3 w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3.5 px-5 rounded-xl transition shadow-lg shadow-blue-600/20 text-sm">
+        <button type="button" id="btnSendMail" class="flex items-center justify-center gap-3 w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3.5 px-5 rounded-xl transition shadow-lg shadow-blue-600/20 text-sm">
           <span class="text-lg" aria-hidden="true">✉️</span> Abrir en mi App de Mail / Celular
         </button>
-        <button type="button" id="btnSendGmail" disabled class="flex items-center justify-center gap-3 w-full bg-red-600 hover:bg-red-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3.5 px-5 rounded-xl transition shadow-lg shadow-red-600/20 text-sm">
+        <button type="button" id="btnSendGmail" class="flex items-center justify-center gap-3 w-full bg-red-600 hover:bg-red-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3.5 px-5 rounded-xl transition shadow-lg shadow-red-600/20 text-sm">
           <span class="text-lg" aria-hidden="true">🌐</span> Abrir directo en Gmail Web
         </button>
       </div>
@@ -174,13 +173,13 @@
       <div class="pt-3 border-t border-slate-800 space-y-3">
         <p class="text-xs text-slate-400">Si el correo se abre incompleto, el enlace es demasiado largo: copiá destinatarios, asunto y texto, y pegalo a mano.</p>
         <div class="flex flex-wrap gap-2">
-          <button type="button" id="btnCopyRecipients" disabled class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-300 transition">
+          <button type="button" id="btnCopyRecipients" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-300 transition">
             <span aria-hidden="true">📋</span> Copiar destinatarios
           </button>
-          <button type="button" id="btnCopySubject" disabled class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-300 transition">
+          <button type="button" id="btnCopySubject" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-300 transition">
             <span aria-hidden="true">📋</span> Copiar asunto
           </button>
-          <button type="button" id="btnCopyAll" disabled class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-300 transition">
+          <button type="button" id="btnCopyAll" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-300 transition">
             <span aria-hidden="true">📋</span> Copiar todo (destinatarios, asunto y texto)
           </button>
         </div>
