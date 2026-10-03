@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    {
+      "source": "/maldonado",
+      "destination": "/maldonado.html"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
