@@ -1,8 +1,14 @@
 {
-  "rewrites": [
+  "redirects": [
     {
       "source": "/maldonado",
-      "destination": "/maldonado.html"
+      "destination": "/?d=maldonado",
+      "permanent": false
+    },
+    {
+      "source": "/maldonado/",
+      "destination": "/?d=maldonado",
+      "permanent": false
     }
   ],
   "headers": [
