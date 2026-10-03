@@ -12,6 +12,8 @@ Permitir a cualquier ciudadano consultar de forma directa, ágil y transparente 
 ## 🚀 Probar la Aplicación
 🔗 **Sitio principal:** [https://transparencia-ediles.vercel.app/](https://transparencia-ediles.vercel.app/)
 
+🔗 **Versión Maldonado:** [https://transparencia-ediles.vercel.app/maldonado](https://transparencia-ediles.vercel.app/maldonado) — la Junta de Maldonado no publica correos individuales de ediles, así que el mensaje va a `junta@juntamaldonado.gub.uy` con copia a las bancadas (direcciones de su [página oficial de contactos](https://juntamaldonado.gub.uy/index.php/comunicacion/contactos)).
+
 Espejo en GitHub Pages: [https://lifetripperapp.github.io/transparencia-ediles/](https://lifetripperapp.github.io/transparencia-ediles/)
 
 Código: [https://github.com/Lifetripperapp/transparencia-ediles](https://github.com/Lifetripperapp/transparencia-ediles)
@@ -24,7 +26,7 @@ Código: [https://github.com/Lifetripperapp/transparencia-ediles](https://github
 ## Estilos
 El CSS ya está generado y versionado. Vercel y GitHub Pages sirven el archivo estático; no hace falta un build al desplegar.
 
-Para regenerarlo después de cambiar clases en `index.html` o `app.js`:
+Para regenerarlo después de cambiar clases en `index.html`, `app.js`, `maldonado.html` o `maldonado.js`:
 
 ```bash
 npm install
